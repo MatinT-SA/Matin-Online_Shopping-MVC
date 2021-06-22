@@ -1,0 +1,191 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_User
+
+@{
+    ViewBag.Title = "صفحه مدیریت";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+
+        <h2>اطلاعات آماری</h2>
+        <hr />
+
+        <div style="@ViewBag.Style" class="@ViewBag.Class">
+            @if (ViewBag.Style != null)
+            {
+                <button type="button" class="close" data-dismiss="alert">×</button>
+            }
+
+            @Html.Raw(ViewBag.Message)
+        </div>
+
+        <style>
+            .responsive-column {
+                width: 60% !important;
+                margin-left: 10% !important;
+                margin-right: 10% !important;
+            }
+
+            .tile-stats.tile-green {
+                background: #00A65A none repeat scroll 0% 0%;
+            }
+
+            .tile-stats {
+                position: relative;
+                display: block;
+                background: #303641 none repeat scroll 0% 0% padding-box;
+                padding: 20px;
+                margin-bottom: 10px;
+                overflow: hidden;
+                border-radius: 5px;
+                transition: all 300ms ease-in-out 0s;
+            }
+
+                .tile-stats.tile-green .num, .tile-stats.tile-green h3, .tile-stats.tile-green p {
+                    color: #FFF;
+                }
+
+                .tile-stats .num {
+                    font-size: 38px;
+                    font-weight: bold;
+                }
+
+                .tile-stats .num, .tile-stats h3, .tile-stats p {
+                    position: relative;
+                    color: #FFF;
+                    z-index: 5;
+                    margin: 0px;
+                    padding: 0px;
+                }
+
+            *, *::before, *::after {
+                box-sizing: border-box;
+            }
+
+            .tile-stats.tile-green .num, .tile-stats.tile-green h3, .tile-stats.tile-green p {
+                color: #FFF;
+            }
+
+            .tile-stats h3 {
+                font-size: 18px;
+                margin-top: 5px;
+            }
+
+            .tile-stats .num, .tile-stats h3, .tile-stats p {
+                position: relative;
+                color: #FFF;
+                z-index: 5;
+                margin: 0px;
+                padding: 0px;
+            }
+
+            .row::before, .row::after {
+                content: " ";
+                display: table;
+            }
+
+            .row {
+                margin-left: -15px;
+                margin-right: -15px;
+            }
+
+            .col-sm-3 {
+                float: right;
+            }
+
+            .col-sm-3 {
+                position: relative;
+                min-height: 1px;
+                padding-left: 15px;
+                padding-right: 15px;
+                margin-left: 0px;
+            }
+
+            .tile-stats.tile-red {
+                background: #F56954 none repeat scroll 0% 0%;
+            }
+
+            .tile-stats.tile-blue {
+                background: #0073B7 none repeat scroll 0% 0%;
+            }
+
+            .tile-stats.tile-aqua {
+                background: #00C0EF none repeat scroll 0% 0%;
+            }
+
+                .tile-stats.tile-aqua .icon {
+                    color: rgba(0, 0, 0, 0.1);
+                }
+
+            .page-container .tile-stats .icon {
+                bottom: 35px;
+            }
+
+            .tile-stats .icon {
+                left: 5px;
+                right: auto;
+            }
+
+                .tile-stats .icon i {
+                    font-size: 40px;
+                    line-height: 0;
+                    margin: 11px;
+                    padding: 0px;
+                    vertical-align: bottom;
+                    color: #D7D7D7;
+                }
+        </style>
+
+
+        @{
+            Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+            var q = from a in db.Tbl_User
+                    select a;
+
+            var qComments = from a in db.Tbl_Comment
+                            where a.Confirm_Comm.Equals(false)
+                            select a;
+        }
+
+        <div class="row">
+            <div class="col-sm-3 responsive-column">
+                <div class="tile-stats tile-red">
+                    <div class="icon"><i class="fa fa-users"></i></div>
+                    <div data-delay="0" data-duration="1500" data-end="25" data-start="0" class="num">
+                        @q.Count()
+                    </div>
+                    <h3> کل کاربرها</h3>
+                </div>
+            </div>
+            <div class="col-sm-3 responsive-column">
+                <div class="tile-stats tile-green">
+                    <div class="icon"><i class="fa fa-upload"></i></div>
+                    <div data-delay="0" data-duration="1500" data-decimals="2" data-postfix="&nbsp;GB" data-end="1.56" data-start="0" class="num">@q.Where(a => a.Status == false).Count()</div>
+                    <h3>کاربران تایید نشده</h3>
+                </div>
+            </div>
+            <div class="col-sm-3 responsive-column">
+                <div class="tile-stats tile-aqua">
+                    <div class="icon"><i class="fa fa-money"></i></div>
+                    <div data-delay="0" data-duration="1500" data-end="25" data-start="0" class="num"> تومان @q.Sum(a => a.Tbl_Sales.Sum(b => b.Price))</div>
+                    <h3>کل فروش </h3>
+                </div>
+            </div>
+            <div class="col-sm-3 responsive-column">
+                <div class="tile-stats tile-blue">
+                    <div class="icon"><i class="fa fa-comment"></i></div>
+                    <div data-delay="0" data-duration="1500" data-end="0" data-start="0" class="num">@qComments.Count()</div>
+                    <h3>کامنت های خوانده نشده</h3>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+

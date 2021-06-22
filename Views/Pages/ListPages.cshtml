@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Menu>
+
+@{
+    ViewBag.Title = "لیست صفحات";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+        <h2>لیست صفحات</h2>
+        <hr />
+        <div id="gridView">
+            <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                <div class="grid-wrap">
+                    <!--قالب اصلی-->
+
+                    <p>
+                        @Html.ActionLink("اضافه کردن صفحه جدید", "CreatePage", "Pages", new { }, new { @class = "button-1 newsletter-subscribe btn btn-3d btn-success" }) <!-- پارامتر دوم ما نام اکشن مربوطه است-->
+                    </p>
+
+                    <div class="@ViewBag.Class" style="@ViewBag.Style">
+                        @if (ViewBag.Style != null)
+                        {
+                            <span type="button" class="close" aria-label="Close" data-dismiss="alert">&times;</span>
+                        }
+                        @ViewBag.Message
+                    </div>
+
+                    @if (Model.Count() != 0)
+                    {
+
+                        <table class=" table table-striped grid-table">
+                            <tr>
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.TitlePage)
+                                </th>
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Sort)
+                                </th>
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Enable)
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr class="grid-row">
+                                    <td class="grid-cell">
+                                        @Html.DisplayFor(modelItem => item.TitlePage)
+                                    </td>
+                                    <td class="grid-cell">
+                                        @Html.DisplayFor(modelItem => item.Sort)
+                                    </td>
+                                    <td class="grid-cell">
+                                        @Html.DisplayFor(modelItem => item.Enable)
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink(" ", "EditPage", new { pagename = item.TitlePage }, new { @class = "fa fa-edit", @style = "color:green; font-size:18px;" }) |
+                                        @Html.ActionLink(" ", "DeletePage", new { pagename = item.TitlePage }, new { @class = "fa fa-trash", @style = "color:red; font-size:18px;", onclick = "return confirm('آیا از حذف این صفحه مطمئن هستید؟');" })
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+                    else
+                    {
+                        <p style="padding-right:20px;">
+                            صفحه ای با این مشخصات یافت نشد
+                        </p>
+                    }
+
+                    @Html.ActionLink("بازگشت", "Index", "Admin",new { style=""}, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

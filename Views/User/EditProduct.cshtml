@@ -1,0 +1,223 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Products
+
+@{
+    ViewBag.Title = "ویرایش محصول";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+@section jsckeditor{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                @using (Html.BeginForm("EditProduct", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ID)
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ImageIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <span class="btn btn-info btn-file">
+                                    <i class="fa fa-upload"></i> بارگذاری تصویر... <input type="file" name="ImageIndex" value="" />
+                                </span>
+                                <style>
+                                    .btn-file {
+                                        position: relative;
+                                        overflow: hidden;
+                                    }
+
+                                        .btn-file input[type=file] {
+                                            position: absolute;
+                                            top: 0;
+                                            right: 0;
+                                            min-width: 100%;
+                                            min-height: 100%;
+                                            font-size: 100px;
+                                            text-align: right;
+                                            filter: alpha(opacity=0);
+                                            opacity: 0;
+                                            outline: none;
+                                            background: white;
+                                            cursor: inherit;
+                                            display: block;
+                                        }
+                                </style>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <img src="~/Content/images/PicCategory/@Model.ImageIndex" alt="" style="width:100px;height:100px;border:2px solid #808080;margin-right:210px;" />
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TopicID, htmlAttributes: new { @class = "control-label col-md-2", @style = "margin-bottom:75px;" })
+                            <div class="col-md-10">
+
+                                <select id="TopicID" name="TopicID">
+
+                                    @{
+                                        Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+                                        var q = from a in db.Tbl_Categories
+                                                orderby a.ID
+                                                select a;
+
+                                        foreach (var item in q)
+                                        {
+                                            string select = "";
+                                            if (item.ID == Model.TopicID)
+                                            {
+                                                select = "selected";
+                                            }
+                                            <option @select value="@item.ID">@item.Title</option>
+                                        }
+                                    }
+
+                                </select>
+
+                                <input type="button" class="btn btn-sm btn-warning" name="Btn_Filter" value="ایجاد فیلتر" onclick="Filter()" />
+                            </div>
+                        </div>
+
+                        <div id="DivFilter" class="col-md-4" style="margin-right:180px;">
+                            <ul class="list-group">
+                                @foreach (var item in Model.Tbl_Filter_Product)
+                                {
+                                    <li class="list-group-item list-group-item-success">
+                                        <span style="margin-right:10px;float:right;color:red;font-size:14px;cursor:pointer;">
+                                            @Ajax.ActionLink("X", "DeleteFilter", "User", new { id = item.FilterID, ProductID = Model.ID }, new AjaxOptions
+                                            {
+                                           HttpMethod = "POST",
+                                           InsertionMode = InsertionMode.Replace,
+                                           Confirm = "آیا مطمئین هستید؟",
+                                           UpdateTargetId = "DivFilter",
+                                       })
+                                        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span>@item.Tbl_Filter.Title</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div id="AddFilter" class="form-group" style="margin-right: 160px;margin-top: 70px;">
+
+                        </div>
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Text, new { @class = "ckeditor" })
+                                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ExitCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ExitCount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ExitCount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Warranty, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="ویرایش" class="btn btn-success" />
+                                @Html.ActionLink("بازگشت", "ManageProducts", "User", new { }, new { @class = "btn btn-warning" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+                <script>
+                    function Filter() {
+                        $.ajax({
+                            url: '/Home/AddFilter',
+                            type: 'POST',
+                            dataType: 'Html',
+                            data: {
+                                topicid: $('#TopicID').val()
+                            },
+                            error: function (err) {
+                                BootstrapDialog.show({
+                                    title: 'نمایش فیلترها',
+                                    type: BootstrapDialog.TYPE_SUCCESS,
+                                    message: 'خطا در نمایش'
+                                });
+                            }
+                        }).done(function (data) {
+                            $('#AddFilter').html(data)
+                        })
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</section>

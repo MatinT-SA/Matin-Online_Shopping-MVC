@@ -1,0 +1,116 @@
+﻿@model Sourceiran_MVC.Models.Struct.StructBills
+
+@{
+    ViewBag.Title = "صورت حساب";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                @{
+                    if (Model != null)
+                    {
+                        <div>
+
+                            <hr />
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Stock)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Stock)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.RealStock)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.RealStock)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.EndReceive)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.EndReceive)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.EndDateReceive)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.EndDateReceive)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.AllReceive)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.AllReceive)
+                                </dd>
+
+                            </dl>
+                        </div>
+
+
+                        if (Model.RealStock > 0)
+                        {
+                            <div class="col-md-offset-1 col-md-11">
+                                <form action="~/User/RequestPrice" method="post">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                مبلغ درخواستی:
+                                            </td>
+                                            <td>
+                                                <input type="text" name="PriceRequest" value="@Model.RealStock" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input style="margin:20px auto 0px;" type="submit" value="ثبت درخواست" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="well" style="height:270px;background-color:#fff;">
+                            <div style="@ViewBag.Style" class="@ViewBag.Class">
+                                @if (ViewBag.Style != null)
+                                {
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                }
+
+                                @Html.Raw(ViewBag.Message)
+                            </div>
+                        </div>
+                    }
+                }
+
+                @Html.ActionLink("بازگشت", "Index", "User",new { }, new { @class = "btn btn-warning" })
+
+            </div>
+        </div>
+    </div>
+</section>

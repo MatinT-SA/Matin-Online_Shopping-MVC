@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_GroupFilter>
+
+@{
+    ViewBag.Title = "گروه های فرعی";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+        <h2>لیست گروه های فرعی</h2>
+        <hr />
+        <div id="gridView">
+            <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                <div class="grid-wrap ">
+
+                    <div style="@ViewBag.Style" class="@ViewBag.Class">
+                        @if (ViewBag.Style != null)
+                        {
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                        }
+
+                        @Html.Raw(ViewBag.Message)
+                    </div>
+
+                    <p>
+                        @Html.ActionLink(" ", "CreateSubFilter", "Admin", new { style = "" }, new { @class = "fa fa-plus-circle", @style = "color:green; font-size:25px;" })
+                    </p>
+                    <table class="table table-striped grid-table">
+                        <tr>
+
+                            <th class="grid-header">
+                                عنوان فیلتر اصلی
+                            </th>
+
+                            <th class="grid-header">
+                                عنوان گروه فیلتر
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in Model.Where(a => a.ID != a.ParentID))
+                        {
+                            <tr class="grid-row">
+
+                                <td class="grid-cell">
+                                    @{
+                                        Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+                                        var d = db.Tbl_GroupFilter.Where(a => a.ID == item.ParentID).SingleOrDefault();
+                                    }
+                                    @if (d == null)
+                                    {
+                                        @item.Title
+                                    }
+                                    else
+                                    {
+                                        @d.Title
+                                    }
+
+                                </td>
+
+                                <td class="grid-cell">
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "EditSub", new { id = item.ID }, new { @class = "fa fa-edit", @style = "color:green; font-size:18px;" }) |
+
+                                    @Html.ActionLink(" ", "DeleteSub", new { id = item.ID }, new { @class = "fa fa-trash", @style = "color:red; font-size:18px;", onclick = "return confirm('آیا از حذف این فیلتر فرعی مطمئن هستید؟');" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                    @Html.ActionLink("بازگشت", "Index", "Admin",new { }, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

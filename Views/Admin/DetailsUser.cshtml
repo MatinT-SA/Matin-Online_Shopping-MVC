@@ -1,0 +1,138 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_User
+
+@{
+    ViewBag.Title = "جزئیات کاربر " + Model.UserName + "";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+        <form action="/Admin/ChangeAccess" method="post">
+            <input type="hidden" name="id" value="@Model.ID" />
+            <select name="AccessName">
+                <option value="Admin">کاربر مدیر</option>
+                <option value="User">کاربر عادی</option>
+            </select>
+
+            <input type="submit" value="تغییر دسترسی" class="btn btn-success btn-sm" />
+
+        </form>
+
+        <div>
+            <style>
+                dt {
+                    float: right !important;
+                }
+            </style>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Access)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Access)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NatCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NatCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Mobile)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Mobile)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Shire)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Shire)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.City)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PostalCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PostalCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("بازگشت", "ManageUser", "Admin",new { }, new { @class = "btn btn-warning" })
+        </p>
+    </div>
+</div>
+
+
+

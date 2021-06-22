@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "MessageRegister";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="padding-bottom-20 padding-top-20 noborder-bottom">
+    <div class="container">
+        <div class="row sky-form boxed">
+            <br />
+
+            <div class="@ViewBag.Class" style="@ViewBag.Style">
+                @if (ViewBag.Style != null)
+                {
+                    <span type="button" class="close" aria-label="Close" data-dismiss="alert">&times;</span>
+                }
+                @Html.Raw(ViewBag.Message)
+
+                <br />
+            </div>
+
+            <div class="alert alert-info text-center" style="margin:0px auto 30px;width:50%;">
+                <a href="/Register/ConfirmMobile" target="_blank" style="color:#ff00dc">صفحه ثبت کد پیامکی</a>
+            </div>
+            <p class="text-center">
+                ** برای تایید ایمیل خود به پروفایل ایمیلتان مراجعه کنید
+            </p>
+
+            <div class="text-center" id="MessageRegisterButtons">
+                <a href="/Home/Index" class="btn btn-warning">
+                    بازگشت به صفحه اصلی سایت
+                </a>
+                <a href="~/Register/Login" class="btn btn-info">
+                    ورود
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>

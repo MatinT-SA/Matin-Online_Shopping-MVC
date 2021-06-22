@@ -1,0 +1,90 @@
+﻿@using Sourceiran_MVC.Models.Repository;
+@{RepositorySlider Rep_Slider = new RepositorySlider(); }
+
+<section class="padding-top-0 nopadding-bottom noborder-bottom">
+    <div class="container padding-top-10">
+        <div class="col-md-10 col-xs-12 col-sm-12 hidden-xs">
+            <div class="slider fullwidthbanner-container roundedcorners">
+                <div class="fullwidthbanner thumb-small" data-navigationstyle="" data-shadow="2" data-height="400">
+                    <ul class="hide">
+
+                        @{
+                            foreach (var item in Rep_Slider.GetSlider())
+                            {
+                                <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off" data-thumb="/Content/images/Slider/thumb/@item.Image">
+                                    @if (item.Url != "")
+                                    {
+                                        <a href="@item.Url" target="_blank">
+                                            <img class="lnk" src="#" alt="@item.Title" data-lazyload="/Content/images/Slider/slid/@item.Image" data-bgfit="cover" data-bgposition="top left" data-bgrepeat="no-repeat" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img class="lnk" src="#" alt="@item.Title" data-lazyload="/Content/images/Slider/slid/@item.Image" data-bgfit="cover" data-bgposition="top left" data-bgrepeat="no-repeat" />
+                                    }
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            $('.lnk').click(function () {
+                var href = $(this).attr('alt');
+                if (href != null) {
+                    location.replace(href);
+                }
+            })
+        </script>
+
+        <div class="col-md-2 col-sm-12 col-xs-12 nopadding nomargin">
+            <div class="nopadding nomargin col-md-12 col-xs-12">
+                <div class="etemad">
+
+                    <a href="#" class="social-icon social-icon-border social-disqus pull-left">
+                        <i class="img1"></i>
+                        <i class="img11"></i>
+                    </a>
+                    <a href="#" class="lnk">تست</a>
+
+                </div>
+            </div>
+            <div class="nopadding nomargin col-md-12 col-xs-12">
+                <div class="etemad">
+
+                    <a href="#" class="social-icon social-icon-border social-disqus pull-left">
+                        <i class="img2"></i>
+                        <i class="img22"></i>
+                    </a>
+                    <a href="#" class="lnk">تست</a>
+
+                </div>
+            </div>
+            <div class="nopadding nomargin col-md-12 col-xs-12">
+                <div class="etemad">
+
+                    <a href="#" class="social-icon social-icon-border social-disqus pull-left">
+                        <i class="img3"></i>
+                        <i class="img33"></i>
+                    </a>
+                    <a href="#" class="lnk">تست</a>
+
+                </div>
+            </div>
+            <div class="nopadding nomargin col-md-12 col-xs-12">
+                <div class="etemad">
+
+                    <a href="#" class="social-icon social-icon-border social-disqus pull-left">
+                        <i class="img4"></i>
+                        <i class="img44"></i>
+                    </a>
+                    <a href="#" class="lnk">تست</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,174 @@
+
+
+.n-navbar {
+    padding: 0px;
+    margin: 0px;
+    min-height: 60px;
+    z-index: 4;
+    font-family: 'iranSans-web';
+    font-size: 12px;
+    font-weight: bold;
+    float: right;
+    display: table; /* Allow the centering to work */
+    margin: 0 auto;
+    width:100%;
+}
+
+    .n-navbar ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        text-align: right;
+        float: right;
+    }
+
+        .n-navbar ul li {
+            display: inline;
+            float: right;
+            padding: 5px;
+        }
+
+            .n-navbar ul li a {
+                color: white;
+                text-decoration: none;
+                padding: 10px;
+                color: #000000;
+                display: block;
+                border: solid 2px #dfdfdf;
+                min-width: 132px;
+                /*max-width: 140px;*/
+                text-align: right;
+                padding: 5px 10px 5px 10px;
+                height: 25px;
+                border-radius: 2px;
+                font-size: 9px;
+            }
+
+            .n-navbar ul li ul li a {
+                border: none;
+                padding: 0px;
+            }
+
+            .n-navbar ul li a span {
+                float: left;
+            }
+
+            .n-navbar ul li a:hover {
+                background-color: #FFF;
+            }
+
+            .n-navbar ul li:hover ul {
+                display: block;
+            }
+
+
+
+            .n-navbar ul li ul {
+                max-height: 200px;
+                overflow: auto;
+                min-width: 160px;
+                overflow-x: hidden;
+                border: solid 2px #dfdfdf;
+                position: absolute;
+                z-index: 5;
+                background-color: white;
+                display: none;
+            }
+
+
+                .n-navbar ul li ul li {
+                    display: table-row;
+                    float: none;
+                    text-align: right;
+                    z-index: 5;
+                    width: 100%;
+                }
+
+                    .n-navbar ul li ul li label {
+                        padding: 0px;
+                        cursor: pointer;
+                        font-size: 8px;
+                        z-index: 5;
+                    }
+
+    .n-navbar .n-all {
+        border-bottom: 1px solid #000000;
+        padding: 4px;
+    }
+
+
+
+
+.n-sortlist {
+    width: 100%;
+    min-height: 60px;
+    text-align: right;
+    /*padding-right: 20px;*/
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.n-sort {
+    padding-top: 5px;
+    font-size: 10px;
+}
+
+    .n-sort label {
+        float: right;
+        margin-left: 10px;
+    }
+
+        .n-sort label select {
+            height: 25px;
+            width: 100px;
+            padding: 0px;
+            font-size: 9px;
+            border: solid 2px #dfdfdf;
+        }
+
+            .n-sort label select:nth-child(1) {
+            }
+
+            .n-sort label select:nth-child(2) {
+                width: 60px;
+            }
+
+            .n-sort label select:nth-child(3) {
+                width: 60px;
+            }
+
+
+.n-pagelist {
+    width: 100%;
+    text-align: left;
+}
+
+.n-selectedList {
+    width: 100%;
+    padding: 10px;
+    float: right;
+    position: relative;
+}
+
+    .n-selectedList .item {
+        float: right;
+        padding: 2px;
+        border-radius: 3px;
+        font-size: 10px;
+        color: #690505;
+        float: right;
+        background-color: #d0d0d0;
+        margin: 2px;
+    }
+
+        .n-selectedList .item span {
+            float: left;
+            margin-right: 3px;
+            cursor: pointer;
+        }
+
+.n-mojood {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'iranSANS-web';
+}

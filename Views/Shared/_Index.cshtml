@@ -1,0 +1,582 @@
+﻿@using Sourceiran_MVC.Models.Repository
+@using Sourceiran_MVC.Models.Domains
+@{ RepositorySetting Rep_Setting = new RepositorySetting();
+    RepositoryMenu Rep_Menu = new RepositoryMenu();
+    Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800" />
+    <meta name="description" content="@Rep_Setting.GetDescription() - @ViewBag.Des" />
+    <meta name="keywords" content="@Rep_Setting.GetKeyWord() , @ViewBag.Tag" />
+    <title>@Rep_Setting.GetSetting() - @ViewBag.Title</title>
+
+    <!--Styles-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/~/Content/css/font-awesome.min.css">
+    <link href="~/Content/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/essentials.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/layout.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/header-4.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/layout-shop.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/red.css" type="text/css" rel="stylesheet" id="color_scheme" />
+    <link href="~/Content/css/boostrap-rtl.min.css" type="text/css" rel="stylesheet" id="rtl_ltr_b1" />
+    <link href="~/Content/css/bootstrap-flipped.min.css" type="text/css" rel="stylesheet" id="rtl_ltr_b1" />
+    <link href="~/Content/css/bootstrap-dialog.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/layout-RTL.css" type="text/css" rel="stylesheet" id="rtl_ltr" />
+    <link href="~/Content/css/Sourceiran.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css">
+
+    <!--Scripts-->
+
+    @RenderSection("jsckeditor", false)
+    @RenderSection("ckeditorjs", false)
+    <script src="~/Scripts/js/public.ajaxcart.js"></script>
+    <script src="~/Scripts/js/public.common.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-alert.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        AjaxCart.init(false, '#headertop #ShopCount', '.header-links .wishlist-qty', '#topcartlink');
+    </script>
+
+</head>
+
+<body class="smoothscroll enable-animation grain-grey" onload="GetCount()">
+
+    <div id="topBar">
+        <div class="container" style="background-color:#fff;margin:0px;padding:0px 82px;width:100%;">
+            <!--right-->
+            <ul class="top-links list-inline">
+                <li class="hidden-xs tel">
+                    <a href="/Home/Index">
+                        <i class="fa fa-home"></i> خانه
+                    </a>
+                </li>
+            </ul>
+            <ul class="top-links list-inline">
+
+                @foreach (var item in Rep_Menu.Get_MenuTop())
+                {
+                    <li class="hidden-xs tel">
+                        <a href="/Pages/ShowContent?pagename=@item.TitlePage">
+                            @item.TitlePage
+                        </a>
+                    </li>
+                }
+
+
+            </ul>
+
+            <!--left-->
+
+            @{
+                if (Session["User"] != null)
+                {
+                    <ul class="top-links list-inline pull-right">
+                        <li>
+                            <a href="/Register/LogOut" class="shop-itemlist">
+                                <i class="fa fa-lock"></i>
+                                خروج
+                            </a>
+                        </li>
+                        <li class="hidden-xs hidden-sm">
+                            <a href="/User/Index" class="shop-itemlist">
+                                <i class="fa fa-user"></i>
+                                سلام @Session["User"].ToString() خوش آمدید
+                            </a>
+                        </li>
+                        <li><a href="/User/HistoryBuy">پیگیری سفارش</a></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="top-links list-inline pull-right">
+                        <li>
+                            <a href="/Register/Login" class="shop-itemlist">
+                                <i class="fa fa-sign-in"></i>
+                                ورود
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Register/Register" class="shop-itemlist">
+                                <i class="fa fa-registered"></i>
+                                ثبت نام
+                            </a>
+                        </li>
+                    </ul>
+                }
+            }
+
+
+
+        </div>
+    </div>
+
+    <style>
+        @@media only screen and (max-width: 500px) {
+            #MainLogo {
+                display: none;
+            }
+        }
+    </style>
+
+    <div class="container padding-top-10" style="background-color:#fff;margin:0px;padding:0px 82px;width:100%;">
+        <div class="col-md-4 col-sm-4" id="MainLogo">
+            <a href="/Home/Index" class="logo">
+                <img src="/Content/images/logo.png" class="img-responsive" />
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-4 padding-top-10 padding-right-30 hidden-xs">
+
+            <link href="~/Scripts/js/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+            <script src="~/Scripts/js/jquery-ui-1.10.3.custom.js"></script>
+
+            <form action="/Home/Search" id="small-search-box-form" method="get">
+
+                <div class="input-group">
+                    <input name="Name" type="text" placeholder="جستجو در فروشگاه" id="Name" autocomplete="off" class="form-control required search-box-text" />
+                    <select name="Category">
+                        <option value="1">عادی</option>
+                        <option value="0">مزایده ای</option>
+                    </select>
+                    <span class="input-group-btn">
+                        <input type="submit" value="جستجو" class="btn btn-default button-1 search-box-button" />
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--shopping cart-->
+
+    <script>
+        function GetUpdate() {
+            $.ajax({
+
+                url: '/User/GetUpdate',
+                type: 'POST',
+                dataType: 'json',
+
+            }).done(function (data) {
+
+                $('#SumPrice').text(data.SumPrice);
+                $('#count').text(data.AllCount);
+                $('#SumWeight').text(data.SumWeight);
+
+                var txt = "";
+                if (data.length != 0) {
+
+                    $.each(data.lsCart, function (index, val) {
+
+
+                        txt += " <div class='product'><div class='name'><a href=''>" + val.namecart + "</a></div><div class='price'><span>" + val.price + "</span></div><div class='quantity'><span>" + val.CountCart + "</span></div><div style='margin-bottom:5px;'><a onclick='Remove(" + val.id + ")' style='cursor:pointer;color:red;background-color:#ffccff;padding:2px 3px;border-radius:2px'>X حذف</a></div></div>";
+
+                    })
+
+                    $('#tbl').html(txt)
+                }
+
+            });
+        }
+
+        function GetCount() {
+            $.ajax({
+
+                url: '/User/GetCount',
+                type: 'POST',
+                dataType: 'json',
+
+            }).done(function (data) {
+
+                $('#ShopCount').text(data.AllCount);
+
+            });
+        }
+
+        function Remove(id) {
+            $.ajax({
+
+                url: '/User/RemoveShoppingCart',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: id },
+                error: function (err) {
+                    alert(err.status)
+                }
+
+            }).done(function (data) {
+
+                $('#SumPrice').text(data.SumPrice);
+                $('#count').text(data.AllCount);
+                $('#SumWeight').text(data.SumWeight);
+
+                var txt = "";
+                if (data.length != 0) {
+
+                    $.each(data.lsCart, function (index, val) {
+
+                        txt += " <div class='product'><div class='name'><a href=''>" + val.namecart + "</a></div><div class='price'><span>" + val.price + "</span></div><div class='quantity'><span>" + val.CountCart + "</span></div><div style='margin-bottom:5px;'><a onclick='Remove(" + val.id + ")' style='cursor:pointer;color:red;background-color:#ffccff;padding:2px 3px;border-radius:2px'>X حذف</a></div></div>";
+
+                    })
+
+                    $('#tbl').html(txt)
+                }
+
+            });
+        }
+
+    </script>
+
+    <style>
+        @@media only screen and (max-width: 768px) {
+            ul#ShopingDiv {
+                margin: -60px auto;
+            }
+        }
+
+        @@media only screen and (min-width: 768px) {
+            ul#ShopingDiv {
+                margin: -110px auto;
+            }
+        }
+
+        @@media only screen and (max-width: 500px) {
+            ul#ShopingDiv {
+                margin: 0px auto;
+            }
+        }
+    </style>
+    <div class="col-md-3 text-left col-md-offset-1 pull-right" id="headertop">
+        <ul class="Shoping padding-top-5 margin-bottom-20 " id="ShopingDiv">
+
+            <div id="topcartlink">
+                <a onclick="$('.flyout-cart').css('display', 'block'); GetUpdate()" class="btn btn-default btn-featured shoping-featured">
+                    <span>سبد خرید</span>
+                    <i class="fa fa-shopping-cart"></i>
+
+                    @{
+                        if (Session["User"] != null)
+                        {
+                            string aname = Session["User"].ToString();
+                            var user = db.Tbl_User.Where(a => a.UserName.Equals(aname)).SingleOrDefault().ID;
+                            var q = db.Tbl_ShoppingCarts.Where(a => a.UserID.Equals(user)).Count();
+
+
+                            if (q == 0)
+                            {
+                                <label class="badge badge-aqua btn-xs badge-corner" style="width: 30px; height: 20px;" id="ShopCount">
+                                    0
+                                </label>
+                            }
+                            else
+                            {
+                                <label class="badge badge-aqua btn-xs badge-corner" style="width: 30px; height: 20px;" id="ShopCount">
+                                    @q
+                                </label>
+                            }
+
+                        }
+                        else
+                        {
+                            <label class="badge badge-aqua btn-xs badge-corner" style="width: 30px; height: 20px;" id="ShopCount">
+                                0
+                            </label>
+                        }
+                    }
+                </a>
+            </div>
+
+            @{
+                if (Session["User"] != null)
+                {
+                    string userN = Session["User"].ToString();
+
+                    var qN = (from a in db.Tbl_ShoppingCarts
+                              join b in db.Tbl_User on a.UserID equals b.ID
+                              where a.Tbl_User.UserName.Equals(userN)
+                              select a).ToList();
+
+                    if (qN != null && qN.Count > 0)
+                    {
+                        <div id="flyout-cart" class="flyout-cart" style="z-index:100000;">
+
+                            <div onclick="$('.flyout-cart').css('display', 'none')" id="close" style="float:left; background-color:#ef3318; font:15px; cursor:pointer;padding:10px; color:#fff;">
+                                X
+                            </div>
+
+                            <div class="mini-shopping-cart">
+                                <div class="count">
+                                    تعداد
+                                    <span id="count">0</span>
+                                    محصول در سبد خرید شما وجود دارد
+                                </div>
+                                <div id="tbl" class="items">
+                                    <div class="item first">
+                                        @*<div class="picture">
+                                                <a href="" title="نمایش جزییات Adata DashDrive Durable HD710 External Hard Drive - 2TB">
+                                                    <img alt="" src="/content/images/95.jpeg" title="" />
+                                                </a>
+                                            </div>*@
+                                        <div class="product">
+                                            <div class="name">
+                                                <a href=""></a>
+                                            </div>
+
+                                            <div class="price">
+                                                <span></span>
+                                            </div>
+                                            <div class="quantity">
+                                                <span></span>
+                                            </div>
+                                            <div style="margin-bottom:5px;">
+                                                <a style="cursor:pointer;color:red;background-color:#ffccff;padding:2px 3px;border-radius:2px;">X حذف</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="totals">
+                                    جمع اولیه:
+                                    <span id="SumPrice">0</span>
+                                    تومان
+                                </div>
+                                <div class="totals">
+                                    وزن سبد خرید:
+                                    <span id="SumWeight">0</span>
+                                    گرم
+                                </div>
+                                <div class="buttons">
+                                    <input type="button" value="پرداخت" class="button-1 cart-button" onclick="document.location.href = '/User/PayShopping'" />
+                                    @*<a class="button-1 cart-button" href="/User/PayShopping?id=@Model.ID">پرداخت</a>*@
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="flyout-cart" class="flyout-cart" style="z-index:100000;">
+
+                            <div onclick="$('.flyout-cart').css('display', 'none')" id="close" style="float:left; background-color:#ef3318; font:15px; cursor:pointer;padding:10px; color:#fff;">
+                                X
+                            </div>
+
+                            <span style="margin:90px;">
+                                سبد خالی است
+                            </span>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div id="flyout-cart" class="flyout-cart" style="z-index:100000;">
+
+                        <div onclick="$('.flyout-cart').css('display', 'none')" id="close" style="float:left; background-color:#ef3318; font:15px; cursor:pointer;padding:10px; color:#fff;">
+                            X
+                        </div>
+
+                        <span style="margin:90px;">
+                            سبد خالی است
+                        </span>
+
+                    </div>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <!--منو عادی-->
+    <!--منو ریسپانسیو-->
+    <!--Category-->
+    @Html.Action("Menu", "Home")
+    <!--body-->
+
+    @RenderBody()
+
+    <link href="~/Content/css/extralayers.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/css/settings.css" type="text/css" rel="stylesheet" />
+
+    <script src="~/Scripts/js/demo.shop.js" type="text/javascript"></script>
+    <script src="~/Scripts/js/jquery.themepunch.tools.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/js/jquery.themepunch.revolution.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/js/demo.revolution_slider.js" type="text/javascript"></script>
+    <script src="~/Scripts/js/bootstrap-dialog.min.js" type="text/javascript"></script>
+
+    <!--footer-->
+
+    <footer id="footer">
+        <div class="container padding-top-0 padding-bottom-0">
+            <div class="row margin-top-60 margin-bottom-40 size-13">
+                <!--col #1-->
+                <div class="col-md-3 col-sm-3 col-xs-12 ">
+
+
+
+                    @if (Session["User"] != null)
+                    {
+                        {
+                            string user = Session["User"].ToString();
+                            Sourceiran_MVC.Models.Domains.DBSI dbs = new Sourceiran_MVC.Models.Domains.DBSI();
+                            var quserid = db.Tbl_User.Where(a => a.UserName.Equals(user)).SingleOrDefault().ID;
+                            var visit = dbs.Tbl_Visit.Where(a => a.UserID.Equals(quserid) && a.ProductID.Equals(a.Tbl_Products.ID)).OrderByDescending(a => a.Date).Take(4);
+
+                            foreach (var item in visit)
+                            {
+                                <div class="col-md-6 col-sm-6 col-xs-6 nopadding">
+                                    <img src="~/Content/images/PicProduct/@item.Tbl_Products.ImageIndex" alt="" class="img-responsive" />
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-md-6 col-sm-6 col-xs-6 nopadding">
+                            <span>
+                                محصولی را بازدید نکرده اید
+                            </span>
+                        </div>
+                    }
+
+
+
+
+                </div>
+                <!--End Col #1-->
+                <!--col #2-->
+                <div class="col-md-9 col-sm-9">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4>خدمات مشتریان</h4>
+                            <ul class="list-unstyled footer-list half-padding">
+                                <li>
+                                    <a href="#" class="block">کاربر آنلاین : @ApplicationInstance.Application["OnlineUsers"]</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block">تست دوم</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block">تست سوم</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block">تست چهارم</a>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <h4>
+                                درباره ما
+                            </h4>
+
+                            <ul class="list-unstyled footer-list half-padding noborder">
+                                @foreach (var item in Rep_Menu.Get_MenuBottom())
+                                {
+                                    <li>
+                                        <a href="/Pages/ShowContent?pagename=@item.TitlePage" target="_blank" class="block">
+                                            <i class="fa fa-angle-right"></i>
+                                            @item.TitlePage
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <!--خبرنامه-->
+                        <div class="col-md-5 col-xs-12 col-sm-5">
+                            <h4>خبرنامه</h4>
+                            <div class="newsletter">
+                                <div class="newsletter-subscribe" id="newsletter-subscribe-block">
+                                    <div class="newsletter-email">
+                                        <div class="validate nomargin" data-toastr-position="top-right" novalidate="novalidate">
+                                            <form action="https://tinyletter.com/Matin_1999" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/Matin_1999', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+                                                <div class="input-group">
+                                                    <input type="text" style="width:265px;" name="email" id="tlemail" placeholder="لطفا ایمیل خود را وارد کنید"
+                                                           class="newsletter-subscribe-text form-control" />
+                                                    <span class="input-group-btn">
+                                                        <input type="hidden" value="1" name="embed" />
+                                                        <input type="submit" value="عضویت" id="newsletter-subscribe-button" class="button-1 newsletter-subscribe btn btn-3d btn-success" />
+                                                    </span>
+                                                </div>
+
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                <h2 class="text-center padding-top-10">
+                                    شماره تماس:
+                                    <span style="color:#6d3838;">09334363774</span>
+                                </h2>
+                            </p>
+
+                            <div class="row">
+                                <div class="clearfix text-center">
+                                    <a href="https://twitter.com/home" target="_blank" class="social-icon social-icon-sm social-icon-border social-icon-twitter" data-toggle="tooltip" title="" data-original-title="Twitter" data-placement="top">
+                                        <i class="fa fa-twitter"></i>
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a href="https://www.facebook.com/MatinTaherzadehSA/about_overview" target="_blank" class="social-icon social-icon-sm social-icon-border social-icon-facebook" data-toggle="tooltip" title="" data-original-title="Facebook" data-placement="top">
+                                        <i class="fa fa-facebook"></i>
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    <a href="#" target="_blank" class="social-icon social-icon-sm social-icon-border social-icon-google-plus" data-toggle="tooltip" title="" data-original-title="google-plus" data-placement="top">
+                                        <i class="fa fa-google-plus"></i>
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                    <a href="https://t.me/Matin_T_1999" target="_blank" class="social-icon social-icon-sm social-icon-border social-icon-paper-plane" data-toggle="tooltip" title="" data-original-title="Telegram" data-placement="top">
+                                        <i class="fa fa-paper-plane"></i>
+                                        <i class="fa fa-paper-plane"></i>
+                                    </a>
+                                    <a href="https://www.instagram.com/matin_taherzadeh_sa/" target="_blank" class="social-icon social-icon-sm social-icon-border social-icon-instagram" data-toggle="tooltip" title="" data-original-title="instagram" data-placement="top">
+                                        <i class="fa fa-instagram"></i>
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--End Col #2-->
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div class="container">
+                سایت فروشگاه متین ©
+            </div>
+        </div>
+    </footer>
+
+    <!--end footer-->
+
+    <a href="#" id="toTop" style="display: inline;"></a>
+    <script type="text/javascript">var plugin_path = "http://www.karomall.com/Themes/DefaultClean/assets/plugins/";</script>
+    <script type="text/javascript" src="~/Scripts/js/Scripts.js"></script>
+    <!-- PAGE LEVEL SCRIPTS -->
+    <script type="text/javascript" src="~/Scripts/js/demo.shop.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/jquery.themepunch.revolution.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/demo.revolution_slider.js"></script>
+    <script src="~/Scripts/js/bootstrap-dialog.min.js" type="text/javascript"></script>
+
+</body>
+
+</html>

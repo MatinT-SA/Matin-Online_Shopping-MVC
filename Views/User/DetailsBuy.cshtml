@@ -1,0 +1,103 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Sales
+
+@{
+    ViewBag.Title = "جزئیات خرید محصول " + Model.Tbl_Products.Title + "";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div>
+                    @Model.Tbl_Products.Title
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ProductID)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Tbl_Products.Title)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Price)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </dt>
+
+                        <dd>
+                            @{
+                                UtilityFunction u = new UtilityFunction();
+                            }
+                            @u.Shamsi(Model.Date).ToShortDateString()
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Tbl_Status.Title)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Count)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Count)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TransNo)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TransNo)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CodeRahgiri)
+                        </dt>
+
+                        @{
+                            if (Model.CodeRahgiri == "")
+                            {
+                                <dd>
+                                    <span>کد رهگیری ثبت نشده است</span>
+                                </dd>
+                            }
+                            else
+                            {
+                                <dd>
+                                    @Html.DisplayFor(model => model.CodeRahgiri)
+                                </dd>
+                            }
+                        }
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.BankNo)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.BankNo)
+                        </dd>
+
+                    </dl>
+                </div>
+                <p>
+                    @Html.ActionLink("بازگشت", "HistoryBuy", "User",new { }, new { @class = "btn btn-info" })
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

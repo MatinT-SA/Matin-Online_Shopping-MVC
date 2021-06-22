@@ -1,0 +1,871 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Products
+
+@using CaptchaMvc
+@using CaptchaMvc.HtmlHelpers
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Index.cshtml";
+    Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+}
+
+@{
+    if (Model != null)
+    {
+        <div class="container padding-top-10">
+            <div class="col-md-7 col-sm-7 col-xs-12">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                <div class="well">
+
+                    <strong>
+                        @Model.Title
+                    </strong>
+                    <p class="help-block">
+                        @Model.Description
+                    </p>
+                </div>
+                <span class="line-height-30">
+                    @Html.Raw(Model.Text)
+                </span>
+                <hr />
+                <div class="shop-item-price padding-bottom-10" style="float:right;">
+                    <span>
+                        <strong>
+                            قیمت : @Model.Price تومان
+                        </strong>
+                    </span>
+                </div>
+
+                @{
+                    if (Model.AuctionDate != null)
+                    {
+                        if (Session["User"] != null)
+                        {
+                            <div class="shop-item-price padding-bottom-10" style="float:left;">
+                                <div class="well" style="background-color: #BEF6D7; width: 430px; margin-top: 30px; margin-right: 180px;">
+                                    <span class="nopadding-bottom-10">
+                                        @{ UtilityFunction u = new UtilityFunction(); }
+                                        <strong>زمان باقیمانده : @u.Time(Model.AuctionDate.ToString(), DateTime.Now)</strong>
+                                    </span>
+                                    <br />
+                                    <span class="nopadding-bottom-10">
+                                        @{
+                                            string User = Session["User"].ToString();
+                                            var q = (from a in db.Tbl_Auction
+                                                     where a.ProductID.Equals(Model.ID) && a.Tbl_User.UserName.Equals(User)
+                                                     select a).SingleOrDefault();
+                                        }
+                                        بیشترین قیمت پیشنهادی شما تا این لحظه :  <strong>@(q != null ? q.Price : 0)</strong> تومان
+                                    </span>
+                                    <br />
+
+                                    @{
+                                        using (Ajax.BeginForm("RecordPrice", "User", new AjaxOptions()
+                                        {
+                                            HttpMethod = "POST",
+                                            //UpdateTargetId="Upadateid",
+                                            OnSuccess = "done(data)",
+                                            OnFailure = "NO",
+                                            InsertionMode = InsertionMode.Replace,
+                                            LoadingElementDuration = 3000,
+                                        }
+                                        ))
+                                        {
+                                            <span>
+                                                <input id="PriceAuc" type="text" name="PriceAuc" value="" min="@Model.Price" />
+                                            </span>
+                                            <br />
+                                            <span>
+                                                <input id="ajax_method" type="submit" name="ajax_method" class="btn btn-success btn-sm" value="ثبت" style="margin-top:10px;" />
+                                            </span>
+                                            <p style="color:red;font-size:13px;">نکته: توجه فرمایید که برای ثبت قیمت پیشنهادی شما در این مزایده، باید حداقل مبلغ 1000 تومان بیشتر از قیمت ثبت شده قبلی خود پیشنهاد دهید. چنانچه دفعه اول تان نمی باشد.</p>
+                                            <input type="hidden" name="ProductID" value="@Model.ID" />
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="well" style="margin-top:100px;">
+                                برای شرکت در مزایده  باید ابتدا وارد سایت شوید!
+                                <a href="/Register/Login">صفحه ورود</a>
+                            </div>
+                        }
+                    }
+                }
+
+                <script>
+                   var min = @Model.Price;
+                              function OK() {
+                                    BootstrapDialog.show({
+                                        title: 'ثبت قیمت پیشنهادی برای مزایده',
+                                        type: BootstrapDialog.TYPE_SUCCESS,
+                                        message: 'قیمت پیشنهادی شما ثبت گردید'
+                                    });
+                                }
+                                function NO() {
+                                    BootstrapDialog.show({
+                                        title: 'ثبت قیمت پیشنهادی برای مزایده',
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        message: ' متاسفانه مشکلی رخ داد! '
+                                    });
+                                }
+
+
+                    function done(data) {
+                        var txt = data;
+                        if (data.length != 0) {
+
+                            $.each(function (index, val) {
+
+
+                                txt += " '<tr>' '<td>'  '</td>' '<td>'  ' تومان </td>'  '</tr>'";
+
+                            })
+
+                            $('#tbl').html(txt)
+                        }
+
+                        var confirmation = data;
+                        if (confirmation["success"] != undefined) {
+                            BootstrapDialog.show({
+                                title: 'ثبت قیمت پیشنهادی برای مزایده',
+                                type: BootstrapDialog.TYPE_SUCCESS,
+                                message: 'قیمت پیشنهادی شما ثبت گردید'
+                            });
+                        }
+                        else if (confirmation["error"] != undefined) {
+                            BootstrapDialog.show({
+                                title: 'ثبت قیمت پیشنهادی برای مزایده',
+                                type: BootstrapDialog.TYPE_DANGER,
+                                message: ' متاسفانه مشکلی رخ داد! '
+                            });
+                        }
+                    }
+
+                </script>
+
+
+                <div class="attributes">
+                    <table class="table noborder producttable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="text-prompt control-label">
+                                        گارانتی :
+                                    </span>
+                                </td>
+                                <td>
+                                    @Model.Warranty
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-prompt control-label">
+                                        رنگ
+                                    </span>
+                                    <span class="required red"> * </span>
+                                </td>
+
+                                @*Model.ID==> Tbl_Color->Proid?*@
+
+                                <td>
+                                    <ul class="option-list color-squares" id="color-squares-1743">
+
+                                        @*<li>
+                                                <label for="product_attribute_457_1_1743_3669">
+                                                    <span class="color-container" title="زرد">
+                                                        <span class="color" style="background-color:#ffd800;">&nbsp;</span>
+                                                    </span>
+                                                    <input id="product_attribute_457_1_1743_3669" type="radio" name="product_attribute_457_1_1743" value="3669" checked="checked" />
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label for="product_attribute_457_1_1743_3670">
+                                                    <span class="color-container" title="قرمز">
+                                                        <span class="color" style="background-color:#ff0000;">&nbsp;</span>
+                                                    </span>
+                                                    <input id="product_attribute_457_1_1743_3670" type="radio" name="product_attribute_457_1_1743" value="3670" checked="checked" />
+                                                </label>
+                                            </li>*@
+
+                                        @{
+                                            foreach (var item in Model.Tbl_Color)
+                                            {
+
+                                                string Select = "";
+                                                if (item.DefaultColor == true)
+                                                {
+                                                    Select = "selected-value";
+                                                }
+
+                                                <li class="@Select">
+                                                    <label for="product_attribute_457_1_1743_@item.ID">
+                                                        <span class="color-container" title="@item.NameColor">
+                                                            <span class="color" style="background-color:#@item.CodeColor;"></span>
+                                                        </span>
+
+                                                        @{
+                                                            string Def = "";
+                                                            if (item.DefaultColor == true)
+                                                            {
+                                                                Def = "checked";
+                                                            }
+                                                        }
+
+                                                        <input checked="@Def" id="product_attribute_457_1_1743_@item.ID" type="radio" name="product_attribute_457_1_1743" value="@item.ID" />
+
+
+                                                    </label>
+                                                </li>
+                                            }
+                                        }
+
+                                    </ul>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.attributes #color-squares-1743').delegate('input', 'click', function (event) {
+                                                $('.attributes #color-squares-1743').find('li').removeClass('selected-value');
+                                                $(this).closest('li').addClass('selected-value');
+                                            });
+                                        });
+                                    </script>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span class="text-prompt control-label">
+                                        موجودی کالا
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        @Model.ExitCount
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <script>
+                    //price adjustment table
+                    var priceAdjustmentTable_457 = new Array();
+                    priceAdjustmentTable_457['product_attribute_457_1_1743_3668'] = new Array(0, 0);
+                    priceAdjustmentTable_457['product_attribute_457_1_1743_3668'] = 0; //رنگ روی قیمت تاثیری ندارد.
+                    priceAdjustmentTable_457['product_attribute_457_1_1743_3669'] = 0;
+                    priceAdjustmentTable_457['product_attribute_457_1_1743_3670'] = 0;
+
+                    function adjustPrice_457() {
+                        //دستورات ارسال به سمت سرور
+                    }
+
+
+                    $(document).ready(function () {
+                        adjustPrice_457();
+                        $('#product-attribute-457_9_1742').change(function () { adjustPrice_457(); });
+                        $('#product_attribute_457_1_1743_3668').click(function () { adjustPrice_457(); });
+                        $('#product_attribute_457_1_1743_3669').click(function () { adjustPrice_457(); });
+                        $('#product_attribute_457_1_1743_3670').click(function () { adjustPrice_457(); });
+                    })
+                </script>
+
+
+                <script type="text/javascript">
+
+                    //Picture adjustment table
+                    var productAttributeValueAdjustmentTable_457 = new Array();
+                    //Picture adjustment table initialize
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_9_1742_defaultsize'] = new Array('', '');
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_9_1742_fullsize'] = new Array('', '');
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_1_1743_3668_defaultsize'] = '';
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_1_1743_3668_fullsize'] = '';
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_1_1743_3669_defaultsize'] = '';
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_1_1743_3669_fullsize'] = '';
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_1_1743_3670_defaultsize'] = '';
+                    productAttributeValueAdjustmentTable_457['product_attribute_457_1_1743_3670_fullsize'] = '';
+
+                    //Picture adjustment function
+                    function adjustProductAttributeValuePicture_457(controlId, productId) {
+                        var ctrl = $('#' + controlId);
+                        var pictureDefaultSizeUrl = '';
+                        var pictureFullSizeUrl = '';
+                        if ((ctrl.is(':radio') && ctrl.is(':checked')) || (ctrl.is(':checkbox') && ctrl.is(':checked'))) {
+                            pictureDefaultSizeUrl = productAttributeValueAdjustmentTable_457[controlId + '_defaultsize'];
+                            pictureFullSizeUrl = productAttributeValueAdjustmentTable_457[controlId + '_fullsize'];
+                        } else if (ctrl.is('select')) {
+                            var idx = $('#' + controlId + " option").index($('#' + controlId + " option:selected"));
+                            if (idx != -1) {
+                                pictureDefaultSizeUrl = productAttributeValueAdjustmentTable_457[controlId + '_defaultsize'][idx];
+                                pictureFullSizeUrl = productAttributeValueAdjustmentTable_457[controlId + '_fullsize'][idx];
+                            }
+                        }
+                        if (typeof pictureDefaultSizeUrl == 'string' && pictureDefaultSizeUrl != '') {
+                            $('#main-product-img-' + productId).attr("src", pictureDefaultSizeUrl);
+                        }
+                        if (typeof pictureFullSizeUrl == 'string' && pictureFullSizeUrl != '') {
+                            $('#main-product-img-lightbox-anchor-' + productId).attr("href", pictureFullSizeUrl);
+                        }
+                    }
+                    // Picture attributes handlers
+                    $(document).ready(function () {
+                        $('#product_attribute_457_9_1742').change(function () { adjustProductAttributeValuePicture_457('product_attribute_457_9_1742', 457); });
+                        $('#product_attribute_457_1_1743_3668').click(function () { adjustProductAttributeValuePicture_457('product_attribute_457_1_1743_3668', 457); });
+                        $('#product_attribute_457_1_1743_3669').click(function () { adjustProductAttributeValuePicture_457('product_attribute_457_1_1743_3669', 457); });
+                        $('#product_attribute_457_1_1743_3670').click(function () { adjustProductAttributeValuePicture_457('product_attribute_457_1_1743_3670', 457); });
+
+                    });
+                </script>
+
+                <div class="add-to-cart">
+                    <div class="add-to-cart-panel">
+
+                        @{
+                            if (Model.AuctionDate == null)
+                            {
+                                if (Session["User"] != null)
+                                {
+                                    <div class="col-md-2 col-sm-2 col-xs-3">
+                                        <label class="control-label" for="#EnteredQuantity">
+                                            تعداد :
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <input type="text" name="" min="1" max="@Model.ExitCount" id="EnteredQuantity" class="form-control" data-val="true" value="1" />
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#EnteredQuantity').keydown(function (event) {
+                                                if (event.keyCode == 13) {
+                                                    $("#add-to-cart-button-457").click();
+                                                    return false;
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <input type="button" class="btn btn-primary product-add-cart noradius" id="add-to-cart-button-457" name="" value="اضافه کردن به سبد خرید" data-productid="457"
+                                               onclick="InsertShopping()" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="well" style="margin-top:100px;">
+
+                                        برای خرید این محصول  باید ابتدا وارد سایت شوید!
+
+                                        <a href="/Register/Login">صفحه ورود</a>
+
+                                    </div>
+                                }
+                            }
+
+
+                            <script>
+
+                            var CountMax = @Model.ExitCount;
+
+                                function InsertShopping() {
+
+                                    if (document.getElementById('EnteredQuantity').value < 1) {
+
+                        // alert("انتخاب شما غیرمجاز است");
+                        //return;
+                        BootstrapDialog.show({
+                            title: 'افزودن به سبد خرید',
+                            type: BootstrapDialog.TYPE_DANGER,
+                            message: 'مقدار انتخاب غیرمجاز است'
+                        });
+                                    } else if (document.getElementById('EnteredQuantity').value > CountMax) {
+
+                        //   alert("مقدار انتخابی بیش از موجودی کالا میباشد");
+                        //  return;
+
+                        BootstrapDialog.show({
+                            title: 'افزودن به سبد خرید',
+                            type: BootstrapDialog.TYPE_DANGER,
+                            message: 'مقدار انتخابی بیش از موجودی کالا میباشد'
+                        });
+                    }
+                    else {
+                        BootstrapDialog.show({
+                            title: 'افزودن به سبد خرید',
+                            type: BootstrapDialog.TYPE_SUCCESS,
+                            message: 'محصول به سبد اضافه شد'
+                        });
+                    }
+
+
+                    var proid = @Model.ID;
+                    //بخش عملیات اضافه شدن به سبد
+                    $.ajax({
+
+                        url:'/User/AddCart',
+                        type:'POST',
+                        dataType:'json',
+
+                        data:{
+                            ProductID : proid,
+                            CountProc: document.getElementById('EnteredQuantity').value
+                        }
+
+                    }).done(function (data) {
+
+                        $('#SumPrice').text(data.SumPrice);
+                        $('#count').text(data.AllCount);
+                        $('#SumWeight').text(data.SumWeight);
+
+                        var txt = "";
+                        if (data.length != 0) {
+
+                            $.each (data.lsCart, function (index,val) {
+
+
+                                txt += " <div class='product'><div class='name'><a href=''>" + val.namecart + "</a></div><div class='price'><span>" + val.price + "</span></div><div class='quantity'><span>" + val.CountCart +"</span></div><div><a onclick='Remove("+val.id+")' style='cursor:pointer;color:red;background-color:#ffccff;padding:2px 3px;border-radius:2px'>X حذف</a></div></div>";
+
+                            })
+
+                            $('#tbl').html(txt)
+                        }
+
+                    });
+
+
+                }
+
+                            </script>
+
+                        }
+
+                    </div>
+                </div>
+
+                <div class="col-xs-12 padding-bottom-10 padding-top-30">
+                    <a href="#" class="btn btn-default" data-item-id="1" data-toggle="tooltip" title="مقایسه">
+                        <i class="fa fa-bar-chart-o nopadding" data-toggle="tooltip"></i>
+                    </a>
+                </div>
+
+            </div> <!--ستون راست-->
+
+            <div class="col-md-4 col-sm-5 col-xs-12 col-md-offset-1">
+
+                @if (Model.Tbl_Gallery.Count() > 0)
+                {
+                    <div class="thumbnail relative margin-bottom-3">
+
+                        <figure id="zoom-primary" class="zoom" data-mode="mouseover" style="position: relative; overflow: hidden;">
+
+                            @foreach (var gallery in Model.Tbl_Gallery)
+                            {
+
+
+
+                                if (gallery.DefaultImage == true)
+                                {
+                                    <a class="lightbox bottom-right" href="/Content/images/@gallery.NameImage" data-plugin-options="{&quot;type&quot;:&quot;image&quot;}">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                    <img class="img-responsive" src="/Content/images/@gallery.NameImage" width="1200" height="1500" alt="@gallery.NameImage" title="">
+
+                                }
+                            }
+
+                        </figure>
+                    </div>
+
+                    <div data-for="zoom-primary" class="zoom-more owl-carousel owl-padding-3 featured" data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true, "pagination": false}'>
+                        @foreach (var galleryzoom in Model.Tbl_Gallery)
+                        {
+                            <a class="thumbnail active" href="/Content/images/@galleryzoom.NameImage">
+                                <img src="/Content/images/@galleryzoom.NameImage" height="100" alt="@galleryzoom.NameImage" title="">
+                            </a>
+                        }
+
+                    </div>
+
+                }
+                else
+                {
+                    <p>گالری برای این محصول ثبت نشده</p>
+                }
+
+
+
+                @* نمایش فقط برای کاربر لاگین کرده    ---   نمایش برای محصولات مزایده ای *@
+                @{
+
+                    if (Model.AuctionDate != null)
+                    {
+
+                        if (Session["User"] != null)
+                        {
+                            <div class="well" style="background-color:#fff;">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>آخرین پیشنهاد دهنده</th>
+                                                <th> مقدار پیشنهادی </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="UpdateID">
+                                            @{ var max = Model.Tbl_Auction.OrderByDescending(a => a.Price).ToList().Skip(0).Take(5);
+                                                if (max.Count() > 0)
+                                                {
+                                                    foreach (var item in max)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @item.Tbl_User.UserName
+                                                            </td>
+                                                            <td>
+                                                                @item.Price تومان
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            -
+                                                        </td>
+                                                        <td>
+                                                            0 تومان
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="well">
+                                برای دیدن آخرین پیشنهاد دهنده  باید ابتدا وارد سایت شوید!
+                                <a href="/Register/Login">صفحه ورود</a>
+                            </div>
+                        }
+
+                    }
+                }
+
+
+
+
+                @{ double j = db.Tbl_Products.Where(a => a.UserID.Equals(Model.UserID)).Count();
+
+                    double i = Math.Ceiling(j * 15);
+
+                }
+                <div class="well" style="background-color:#fff">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>مشخصات فروشنده</th>
+                                    <th> اطلاعات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        نام و نام خانوادگی
+                                    </td>
+                                    <td>
+                                        <span>
+                                            @Model.Tbl_User.Name
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        محل سکونت
+                                    </td>
+                                    <td>
+                                        @Model.Tbl_User.Shire
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        امتیاز کاربری
+                                    </td>
+                                    <td>
+                                        @i
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        تعداد محصول برای فروش
+                                    </td>
+                                    <td>
+                                        @j
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        تعداد بازدید محصول
+                                    </td>
+                                    <td>
+                                        @Model.Visit
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        تاریخ ثبت محصول
+                                    </td>
+                                    <td>
+                                        @{
+                                            UtilityFunction ut = new UtilityFunction();
+                                        }
+                                        @ut.Shamsi(Model.Date).ToShortDateString()
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div><!--ستون چپ-->
+
+            <div class="col-xs-12 col-md-12 padding-top-20 ">
+                <ul id="myTab" class="nav nav-tabs nav-top-border" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#description" role="tab" data-toggle="tab">
+                            توضیحات
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#specs" role="tab" data-toggle="tab">
+                            مشخصات فنی
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#reviews" role="tab" data-toggle="tab">
+                            نقد و بررسی
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content padding-top-20">
+
+                    <div role="tabpanel" class="tab-pane fade in active " id="description">
+
+                        <img id="description-image" src="/Content/images/PicProduct/@Model.ImageIndex" alt="" style="width:300px; height:300px; border:solid 3px #ff6a00; border-radius:10px; padding:5px; margin-right:300px;margin-bottom:30px;" />
+
+                        @Html.Raw(Model.Text)
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="specs">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>عنوان :</th>
+                                    <td>@Model.Title</td>
+                                </tr>
+                                <tr>
+                                    <th>وزن :</th>
+                                    <td>@Model.Weight</td>
+                                </tr>
+                                <tr>
+                                    <th>گارانتی :</th>
+                                    <td>@Model.Warranty</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="reviews">
+
+                        <div class="page product-reviews-page container">
+
+                            @foreach (var Comment in Model.Tbl_Comment.Where(a => a.ParentID == a.ID && a.Confirm_Comm.Equals(true)))
+                            {
+                                <div class="write-review well col-lg-12">
+                                    <div class="well" style="background-color:#fff;">
+                                        <span>
+                                            @Comment.Name
+                                        </span>
+                                        <span>
+                                            @Comment.Date
+                                        </span>
+
+                                        @if (Session["User"] != null)
+                                        {
+
+                                            string user = Session["User"].ToString();
+
+                                            var q = db.Tbl_User.Where(a => a.UserName.Equals(user)).SingleOrDefault().ID;
+
+                                            if (Model.UserID == q)
+                                            {
+                                                <span id="reply-button" style="margin-right:800px;">
+                                                    <a onclick="document.getElementById('Comment_Parent').value=@Comment.ID" class="btn btn-default btn-sm" id="monkreply-4">پاسخ</a>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span style="float:left;color:indianred;">
+                                                    برای شما امکان ثبت پاسخ مجاز نیست
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span style="float:left;color:indianred;">
+                                                برای ثبت پاسخ برای این نظر، ابتدا <a href="/Register/Login" style="color:blue;">وارد</a> سایت شوید
+                                            </span>
+                                        }
+
+                                        <br />
+                                        <span>
+                                            @Comment.Text
+                                        </span>
+
+                                        <br />
+                                        @foreach (var Reply in db.Tbl_Comment.Where(a => a.ID != a.ParentID && a.ParentID == Comment.ID && a.Confirm_Comm.Equals(true)))
+                                        {
+                                            <div class="well" style="background-color:#f5ffc2;margin-top:15px;">
+                                                <span>
+                                                    @Reply.Name
+                                                </span>
+                                                <span>
+                                                    @Reply.Date
+                                                </span>
+                                                <br />
+                                                <span>
+                                                    @Reply.Text
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="page-body">
+
+                                @using (Html.BeginForm("InsertComment", "Home", FormMethod.Post))
+                                {
+                                    <div id="review-form" class="write-review well">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label for="AddProductReview_Title">نام</label>
+                                                    <input type="text" class="review-title form-control input-lg" id="AddProductReview.Name" name="Name" value="" />
+                                                    <span class="field-validation-valid" data-valmsg-for="AddProductReview.Name" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label for="AddProductReview_Title">ایمیل</label>
+                                                    <input type="text" class="review-title form-control input-lg" id="AddProductReview.Email" name="Email" value="" />
+                                                    <span class="field-validation-valid" data-valmsg-for="AddProductReview.Email" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label for="AddProductReview_Title">وب سایت</label>
+                                                    <input type="text" class="review-title form-control input-lg" id="AddProductReview.Web" name="Web" value="" />
+                                                    <span class="field-validation-valid" data-valmsg-for="AddProductReview.Web" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                                    <label for="AddProductReview_ReviewText">متن  پیام:</label>
+                                                    <textarea class="review-text form-control" cols="20" id="AddProductReview.Text" name="Text" required="required" rows="2"></textarea>
+                                                    <span class="field-validation-valid" data-valmsg-for="AddProductReview.Text" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="ProductID" value="@Model.ID" id="Comment_Post_ID" />
+
+                                        <input type="hidden" name="ParentID" id="Comment_Parent" value="0" />
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                                    <label for="AddProductReview_Rating">کد امنیتی:</label>
+                                                    @Html.Captcha("دوباره سازی", "مقدار داخل کادر را وارد کنید", 3)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (Session["User"] != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="submit" class="btn btn-3d btn-lg btn-reveal btn-black button-1 write-product-review-button" name="add-review" value="ثبت نظر" />
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="well">
+                                                <span>
+                                                    برای ارسال نظر لطفا <a href="/Register/Login" style="color:#ff6a00">وارد</a> سایت شوید
+                                                </span>
+                                            </div>
+                                        }
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--تب بندی-->
+        </div>
+    }
+    else
+    {
+        <p>محصولی یافت نشد</p>
+    }
+}
+
+<style>
+    @@media only screen and (max-width: 992px) {
+        #reply-button {
+            margin-right: 420px !important;
+        }
+    }
+
+    @@media only screen and (max-width: 768px) {
+        #reply-button {
+            margin-right: 150px !important;
+        }
+    }
+
+    @@media only screen and (max-width: 500px) {
+        #description-image {
+            display: none;
+        }
+    }
+</style>

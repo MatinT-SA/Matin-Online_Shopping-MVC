@@ -1,0 +1,316 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Sales
+
+@{
+    ViewBag.Title = "جزئیات فروش محصول " + Model.Tbl_Products.Title + "";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                @using (Html.BeginForm("ChangeStatus", "User", FormMethod.Post))
+                {
+                    <div class="form-horizontal">
+                        <div class="form-group">
+
+                            <!--وضعیت ارسال-->
+                            <input type="hidden" name="id" value="@Model.ID" />
+
+                            <div class="col-sm-2 padding-top-10">
+                                <label>وضعیت ارسال:</label>
+                            </div>
+
+                            <select name="StID" class="form-control col-md-4 col-sm-6 status-send-1">
+                                @{ Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+                                    var q = (from a in db.Tbl_Status
+                                             orderby a.Sort
+                                             select a).ToList();
+                                }
+
+                                @foreach (var item in q)
+                                {
+                                    string a = "";
+                                    if (item.ID == Model.Status)
+                                    {
+                                        a = "selected";
+                                    }
+                                    <option @a value="@item.ID">@item.Title</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2 padding-top-10">
+                                <label>
+                                    کد رهگیری:
+                                </label>
+                            </div>
+                            <div>
+                                <input type="text" id="1" class="form-control col-md-4 col-sm-6 status-send-2" name="Code" value="@Model.CodeRahgiri" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="submit" name="name" value="ثبت" class="btn btn-default btn-bordered nomargin" />
+                        </div>
+                    </div>
+                }
+
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ProductID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Tbl_Products.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Tbl_User.UserName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </dt>
+
+                    <dd>
+                        @{ UtilityFunction u = new UtilityFunction();}
+                        @u.Shamsi(Model.Date).ToShortDateString()
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Tbl_Status.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.GroupNo)
+                    </dt>
+
+                    @{
+                        if (Model.GroupNo != null)
+                        {
+                            <dd>
+                                @Html.DisplayFor(model => model.GroupNo)
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    کد رهگیری ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Count)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Count)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TransNo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.TransNo)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CodeRahgiri)
+                    </dt>
+
+                    @{
+                        if (Model.CodeRahgiri != null)
+                        {
+                            <dd>
+                                @Html.DisplayFor(model => model.CodeRahgiri)
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    کد رهگیری ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BankNo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.BankNo)
+                    </dd>
+
+                    <dt>
+                        نام مشتری
+                    </dt>
+
+                    @{
+                        if (Model.Tbl_User.Name != "")
+                        {
+                            <dd>
+                                @Model.Tbl_User.Name
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    نام مشتری ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                    <dt>
+                        ایمیل مشتری
+                    </dt>
+
+                    <dd>
+                        @Model.Tbl_User.Email
+                    </dd>
+
+                    <dt>
+                        شماره همراه مشتری
+                    </dt>
+
+                    @{
+                        if (Model.Tbl_User.Phone != "")
+                        {
+                            <dd>
+                                @Model.Tbl_User.Phone
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    شماره همراه ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                    <dt>
+                        کد پستی
+                    </dt>
+
+                    @{
+                        if (Model.Tbl_User.PostalCode != "")
+                        {
+                            <dd>
+                                @Model.Tbl_User.PostalCode
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    کد پستی ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                    <dt>
+                        آدرس پستی
+                    </dt>
+
+                    @{
+                        if (Model.Tbl_User.Address != "")
+                        {
+                            <dd>
+                                @Model.Tbl_User.Address
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    آدرس پستی ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                    <dt>
+                        استان و شهرستان
+                    </dt>
+
+                    @{
+                        if (Model.Tbl_User.Shire != null && Model.Tbl_User.City != null)
+                        {
+                            <dd>
+                                @Model.Tbl_User.Shire - @Model.Tbl_User.City
+                            </dd>
+                        }
+                        else
+                        {
+                            <dd>
+                                <span>
+                                    استان و شهرستان ثبت نشده است
+                                </span>
+                            </dd>
+                        }
+                    }
+
+                </dl>
+                <p>
+                    @Html.ActionLink("بازگشت", "HistorySales", "User", new { }, new { @class = "btn btn-warning" })
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .status-send-1, .status-send-2 {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    @@media only screen and (max-width:768px) and (min-width:500px) {
+        .status-send-1 {
+            float: right;
+        }
+
+        .status-send-1 {
+            width: 70.83333333%;
+        }
+
+        .status-send-2 {
+            float: right;
+        }
+
+        .status-send-2 {
+            width: 70.83333333%;
+        }
+    }
+</style>

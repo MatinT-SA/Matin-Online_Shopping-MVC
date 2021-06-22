@@ -1,0 +1,17 @@
+﻿<select id="TopicID" name="TopicID">
+
+    @{
+        Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+        var q = from a in db.Tbl_Categories
+                orderby a.ID
+                select a;
+
+        foreach (var item in q)
+        {
+            <option value="@item.ID">@item.Title</option>
+        }
+    }
+
+</select>
+

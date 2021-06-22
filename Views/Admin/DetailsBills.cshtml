@@ -1,0 +1,153 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Bills
+
+@{
+    ViewBag.Title = "جزئیات صورت حساب";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+        <div>
+            <style>
+                dt {
+                    float: right !important;
+                    font-size: 15px;
+                    font-family: B Titr;
+                    margin-bottom: 15px;
+                    background-color: rgb(255, 224, 161);
+                    margin-left: 30px;
+                    height: 35px;
+                    width: 135px;
+                    text-align: center !important;
+                    padding-top: 5px;
+                }
+            </style>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Tbl_User.UserName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Stock)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Stock)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndReceive)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.EndReceive)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateEndReceive)
+                </dt>
+
+                <dd>
+                    @{
+                        UtilityFunction u = new UtilityFunction();
+                    }
+                    @u.Shamsi(Model.DateEndReceive).ToShortDateString()
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AmountRequested)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AmountRequested)
+                </dd>
+
+                <dt>
+                    موجودی کل
+                </dt>
+
+                <dd>
+                    @{
+                        Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+                        var q = (from a in db.Tbl_Products
+                                 join b in db.Tbl_Sales on a.ID equals b.ProductID
+                                 where b.Payment.Equals(true) && a.UserID.Equals(Model.UserID)
+                                 select (int?)b.Price).Sum() ?? 0;
+                    }
+                    @q
+                </dd>
+
+                <dt>
+                    موجودی قابل برداشت
+                </dt>
+
+                <dd>
+                    @(q - 2000)
+                </dd>
+
+                <dt>
+                    شماره کارت
+                </dt>
+
+                <dd>
+                    @{
+                        var qbank = db.Tbl_BankNum.Where(a => a.UserID.Equals(Model.Tbl_User.ID)).SingleOrDefault();
+                    }
+                    @if (qbank != null)
+                    {
+                        @qbank.CartNum
+                    }
+                    else
+                    {
+                        <span>شماره کارتی ثبت نشده است</span>
+                    }
+                </dd>
+
+                <dt>
+                    شماره حساب
+                </dt>
+
+                <dd>
+                    @if (qbank != null)
+                    {
+                        @qbank.BankNum
+                    }
+                    else
+                    {
+                        <span>شماره کارتی ثبت نشده است</span>
+                    }
+                </dd>
+
+                <dt>
+                    نام بانک
+                </dt>
+
+                <dd>
+                    @if (qbank != null)
+                    {
+                        @qbank.BankName
+                    }
+                    else
+                    {
+                        <span>شماره کارتی ثبت نشده است</span>
+                    }
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink(" ", "PayRequest", new { id = Model.ID }, new { @class = "btn btn-success fa fa-bank", @style = "font-size:35px;color:green;" }) |
+            @Html.ActionLink("بازگشت", "ManageBill", "Admin",new { }, new { @class = "btn btn-warning" })
+        </p>
+    </div>
+</div>

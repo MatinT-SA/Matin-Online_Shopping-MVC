@@ -1,0 +1,59 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Message
+
+@{
+    ViewBag.Title = "جزئیات پیام";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div>
+                    <h4>جزئیات پیام</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+
+                        <dt style="color:#ff00dc;">
+                            @Html.DisplayNameFor(model => model.Title):
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
+
+                        <dt style="color:#ff00dc;">
+                            @Html.DisplayNameFor(model => model.Text):
+                        </dt>
+
+                        <dd>
+                            @Html.Raw(Model.Text)
+                        </dd>
+
+                        <dt style="color:#ff00dc;">
+                            @Html.DisplayNameFor(model => model.UserSend):
+                        </dt>
+
+                        <dd>
+                            @if (Model.UserSend == null)
+                            {
+                                <span>
+                                    فروشگاه متین
+                                </span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Tbl_User1.UserName)
+                            }
+                        </dd>
+
+                    </dl>
+                </div>
+                <p>
+                    @Html.ActionLink("بازگشت", "ManageMessage", "User",new { }, new { @class = "btn btn-warning" })
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

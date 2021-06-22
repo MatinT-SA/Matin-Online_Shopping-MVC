@@ -1,0 +1,69 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_BankNum
+
+@{
+    ViewBag.Title = "اطلاعات بانکی";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                @using (Html.BeginForm("Infobank", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(false, "خطاها", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.BankName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CartNum, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.CartNum, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CartNum, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BankNum, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.BankNum, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BankNum, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="ثبت" class="btn btn-success" />
+                                @Html.ActionLink("بازگشت", "Index", "User", new { }, new { @class = "btn btn-warning" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+            </div>
+        </div>
+    </div>
+</section>

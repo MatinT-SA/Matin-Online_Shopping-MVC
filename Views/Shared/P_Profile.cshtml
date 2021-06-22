@@ -1,0 +1,46 @@
+﻿<div class="col-md-3 col-sm-4 col-xs-12 padding-top-15">
+    <div class="block block-account-navigation">
+        <div class="listbox">
+            <ul class="side-nav list-group margin-bottom-60" id="sidebar-nav">
+
+                <li class="list-group-item inactive">
+                    <a href="/User/Infobank"><i class="fa fa-home"></i>ثبت اطلاعات بانکی</a>
+                </li>
+                @*<li class="list-group-item inactive">
+                    <a href="/User/EditBankInfo"><i class="fa fa-home"></i>ویرایش اطلاعات بانکی</a>
+                </li>*@
+                <li class="list-group-item inactive">
+                    <a href="/User/Addresses"><i class="fa fa-home"></i>آدرس</a>
+                </li>
+                <li class="list-group-item inactive">
+                    <a href="/User/HistoryBuy"><i class="fa fa-shopping-cart"></i>تاریخچه خرید</a>
+                </li>
+                <li class="list-group-item inactive">
+                    <a href="/User/HistorySales"><i class="fa fa-shopping-cart"></i>تاریخچه فروش</a>
+                </li>
+                <li class="list-group-item inactive">
+                    <a href="/User/Bills"><i class="fa fa-shopping-cart"></i>صورتحساب</a>
+                </li>
+                <li class="list-group-item inactive">
+                    <a href="/User/ManageProducts"><i class="fa fa-shopping-cart"></i>مدیریت محصولات</a>
+                </li>
+                <li class="list-group-item inactive">
+                    <a href="/User/ListAuction"><i class="fa fa-shopping-cart"></i>مزایدات برنده شده</a>
+                </li>
+                <li class="list-group-item inactive">
+                    @{
+                        Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+                        string user = Session["User"].ToString();
+
+                        var q = db.Tbl_Message.Where(a => a.Read == false && a.Tbl_User.UserName.Equals(user)).Count();
+                    }
+                    <a style="margin-top: 5px;" href="/User/ManageMessage"><i class="fa fa-shopping-cart"></i> مدیریت پیام ها<span style="background-color:#ff6a00;margin-right:35px; border-radius:25px; color:#fff;padding: 7px;">@q</span></a>
+                </li>
+                <li class="list-group-item inactive">
+                    <a href="/User/ReadMessage"><i class="fa fa-shopping-cart"></i>پیام های ارسالی</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

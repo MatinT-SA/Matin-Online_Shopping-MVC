@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "صفحه اصلی";
+    Layout = "~/Views/Shared/_Index.cshtml";
+
+    Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+    string user = Session["User"].ToString();
+
+    var q = db.Tbl_User.Where(a => a.UserName.Equals(user)).SingleOrDefault();
+
+
+}
+
+<div style="@ViewBag.Style" class="@ViewBag.Class">
+    @if (ViewBag.Style != null)
+    {
+        <button type="button" class="close" data-dismiss="alert">×</button>
+    }
+
+    @Html.Raw(ViewBag.Message)
+</div>
+
+<div class="container padding-top-20 ">
+
+    @Html.Partial("P_Profile")
+
+    <div class="col-md-9 col-sm-8 col-xs-12">
+        <div class="page account-page order-list-page">
+            <div class="page-body">
+                <div class="no-data">
+
+
+                    <div class="well" style="background-color:#fff;">
+                        <span>
+                            تعداد محصول برای فروش عادی  :
+                        </span>
+                        <span>
+                            <strong>
+                                @q.Tbl_Products.Where(a => a.AuctionDate == null).Count()
+                            </strong>
+                        </span>
+                    </div>
+                    <div class="well" style="background-color:#fff;">
+                        <samp>
+                            تعداد محصول برای فروش مزایده  :
+                        </samp>
+                        <span>
+                            <strong>
+                                @q.Tbl_Products.Where(a => a.AuctionDate != null).Count()
+                            </strong>
+                        </span>
+                    </div>
+                    <div class="well" style="background-color:#fff;">
+                        <samp>
+                            تعداد خرید  :
+                        </samp>
+                        <span>
+                            <strong>
+                                @q.Tbl_Sales.Where(a => a.Payment == true).Count()
+                            </strong>
+                        </span>
+                    </div>
+
+                    <div class="well" style="background-color:#fff;">
+                        <samp>
+                            مزایدات برنده شده  :
+                        </samp>
+                        <span>
+                            <strong>
+                                @q.Tbl_Sales.Where(a => a.Payment == false).Count()
+                            </strong>
+
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

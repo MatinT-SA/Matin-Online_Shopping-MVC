@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "ConfirmMobile";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="padding-bottom-20 padding-top-20 noborder-bottom">
+    <div class="container">
+        <div class="row sky-form boxed">
+
+            <div>
+                <form action="/Register/ConfirmMobile" method="post">
+
+                    <div class="form-horizontal">
+                        <header style="margin-top:15px;margin-bottom:25px;">
+                            <i class="fa fa-mobile"></i>
+                            &nbsp;&nbsp; ثبت کد پیامکی
+                        </header>
+                        <div class="form-group">
+                            <div style="margin-right:20px;" class="col-md-3">
+                                <input type="text" name="codemob" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <input type="submit" value="ثبت کد" class="btn btn-success" />
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+

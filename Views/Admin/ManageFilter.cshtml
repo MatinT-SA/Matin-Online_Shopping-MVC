@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_GroupFilter>
+
+@{
+    ViewBag.Title = "مدیریت فیلترها";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+        <h2>لیست گروه های اصلی</h2>
+        <hr />
+
+        <div style="@ViewBag.Style" class="@ViewBag.Class">
+            @if (ViewBag.Style != null)
+            {
+                <button type="button" class="close" data-dismiss="alert">×</button>
+            }
+
+            @Html.Raw(ViewBag.Message)
+        </div>
+
+        <p>
+            @Html.ActionLink(" ", "CreateGFilter", "Admin", new { style = "" }, new { @class = "fa fa-plus-circle", @style = "color:green; font-size:25px;" })
+        </p>
+
+        <div id="Filter">
+            @if (Model != null)
+            {
+                <ul>
+                    @foreach (var Main in Model.Where(a => a.ParentID == a.ID))
+                    {
+                        <li class="main">
+                            <span>
+                                @Main.Title
+                                @Html.ActionLink(" ", "DeleteSub", new { id = Main.ID }, new { @class = "fa fa-trash", @style = "color:red; font-size:18px;", onclick = "return confirm('آیا از حذف این فیلتر اصلی مطمئن هستید؟');" })
+                                @Html.ActionLink(" ", "EditGFilter", new { id = Main.ID }, new { @class = "fa fa-edit", @style = "color:green; font-size:18px;" })
+                            </span>
+
+                            <ul>
+                                @foreach (var Sub in Model.Where(a => a.ParentID != a.ID && a.ParentID == Main.ID))
+                                {
+                                    <li class="sub">
+                                        <span>
+                                            @Sub.Title
+                                        </span>
+
+                                        <ul>
+                                            @{
+                                                Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+                                                var q = from a in db.Tbl_Filter
+                                                        where a.GroupFilterID.Equals(Sub.ID)
+                                                        select a;
+                                                foreach (var filter in q)
+                                                {
+                                                    <li class="filter">
+                                                        @filter.Title
+                                                    </li>
+                                                }
+
+                                            }
+
+                                        </ul>
+
+                                    </li>
+                                }
+                            </ul>
+
+                        </li>
+                    }
+
+                </ul>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <span>
+                        فیلتری موجود نمی باشد
+                    </span>
+                </div>
+            }
+            @Html.ActionLink("بازگشت", "Index", "Admin",new { }, new { @class = "btn btn-warning",@style="margin-top:30px;" })
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+    #Filter ul {
+        margin: 7px;
+        margin-right: 20px;
+    }
+
+    li .sub {
+        display: none;
+    }
+
+    li {
+        cursor: pointer;
+        line-height: 25px;
+        list-style: none;
+    }
+
+        li.main {
+            display: block;
+            background-color: rgb(255, 224, 92);
+            width: 400px;
+            border: 2px solid rgb(255, 207, 0);
+            padding: 3px;
+            margin: 5px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+
+    /*ul .active {
+        background-color: rgb(255, 207, 0);
+    }*/
+</style>
+
+<script>
+
+
+    $('li').click(function (e) {
+        if ($(this).find('>ul').hasClass('active')) {
+            $(this).children('ul').removeClass('active').children('li').slideUp();
+            e.stopPropagation();
+        }
+        else {
+            $(this).children('ul').addClass('active').children('li').slideDown();
+            e.stopPropagation();
+        }
+    });
+</script>

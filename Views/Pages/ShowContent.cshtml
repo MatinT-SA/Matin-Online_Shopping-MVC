@@ -1,0 +1,51 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Menu
+
+@{
+    ViewBag.Title = Model.TitlePage;
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Tag = Model.Tag;
+    ViewBag.Des = Model.Description;
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                @Html.Raw(Model.ContentPage)
+
+
+                @if (Model.TitlePage == "ادمین ها")
+                {
+                    Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+                    var q = (from a in db.Tbl_User
+                             where a.Access.Equals("Admin")
+                             select a).ToList();
+                    <ul style="list-style-type:square;">
+                        @foreach (var item in q)
+                        {
+                            if (item.UserName == "Admin")
+                            {
+                                <li style="text-shadow:2px 2px 7px #0026ff;font-size:24px;" class="admins"><strong>@item.UserName <span class="fa fa-check-square"></span> <span style="text-shadow:none;color:#f14451;">&nbsp;&nbsp;&nbsp;&nbsp; مدیر سایت</span></strong></li>
+                            }
+                            else
+                            {
+                                <li class="admins"><strong>@item.UserName</strong></li>
+                            }
+
+                        }
+                    </ul>
+                }
+
+
+                <style>
+                    .admins {
+                        margin: 15px;
+                    }
+                </style>
+
+            </div>
+        </div>
+    </div>
+</section>

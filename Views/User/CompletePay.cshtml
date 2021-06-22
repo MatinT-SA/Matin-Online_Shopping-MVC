@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Sales>
+
+@{
+    ViewBag.Title = "CompletePay";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="padding-bottom-20 padding-top-20 noborder-bottom">
+    <div class="container">
+        <div class="row sky-form boxed">
+
+            @if (Model != null)
+            {
+                <div class="alert alert-danger" style="margin: 15px 50px 15px 10px; text-align: center; width: 90%;">
+                    <span type="button" class="close" aria-label="Close" data-dismiss="alert">&times;</span>
+
+                    <span>
+                        شماره تراکنش : @Model.FirstOrDefault().TransNo;
+                    </span>
+
+                    <span>
+                        مبلغ پرداختی : @Model.Sum(a=>a.Price)
+                    </span>
+
+                    <table style="width:400px;">
+                        <tr>
+                            <td>نام محصول</td>
+                            <td>تعداد</td>
+                            <td>قیمت</td>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Tbl_Products.Title</td>
+                                <td>@item.Count</td>
+                                <td>@item.Price</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p>موردی یافت نشد</p>
+            }
+
+
+        </div>
+    </div>
+</section>

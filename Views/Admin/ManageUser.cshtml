@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_User>
+
+@{
+    ViewBag.Title = "اطلاعات فردی";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+        <h2>لیست کاربران</h2>
+        <hr />
+        <div id="gridView">
+            <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                <div class="grid-wrap">
+
+                    <div style="@ViewBag.Style" class="@ViewBag.Class">
+                        @if (ViewBag.Style != null)
+                        {
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                        }
+
+                        @Html.Raw(ViewBag.Message)
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <table class="table table-striped grid-table">
+                            <tr style="text-align:right!important;">
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.UserName)
+                                </th>
+
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Mobile)
+                                </th>
+
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                if (item.Access == "Admin")
+                                {
+                                    <tr class="grid-row">
+                                        <td class="grid-cell" style="background-color:deepskyblue;">
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+
+                                        <td class="grid-cell">
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+
+                                        <td class="grid-cell">
+                                            @Html.DisplayFor(modelItem => item.Mobile)
+                                        </td>
+
+                                        <td class="grid-cell">
+                                            @Html.ActionLink(" ", "DetailsUser", new { id = item.ID }, new { @class = "fa fa-eye", @style = "font-size:16px;" }) |
+
+                                            @if (item.Status == true)
+                                            {
+                                                @Html.ActionLink(" ", "DisableUser", new { id = item.ID }, new { @class = "fa fa-close", @style = "font-size:16px;color:red;" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink(" ", "EnableUser", new { id = item.ID }, new { @class = "fa fa-check", @style = "font-size:16px;color:green;" })
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="grid-row">
+                                        <td class="grid-cell">
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+
+                                        <td class="grid-cell">
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+
+                                        <td class="grid-cell">
+                                            @Html.DisplayFor(modelItem => item.Mobile)
+                                        </td>
+
+                                        <td class="grid-cell">
+                                            @Html.ActionLink(" ", "DetailsUser", new { id = item.ID }, new { @class = "fa fa-eye", @style = "font-size:16px;" }) |
+
+                                            @if (item.Status == true)
+                                            {
+                                                @Html.ActionLink(" ", "DisableUser", new { id = item.ID }, new { @class = "fa fa-close", @style = "font-size:16px;color:red;" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink(" ", "EnableUser", new { id = item.ID }, new { @class = "fa fa-check", @style = "font-size:16px;color:green;" })
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <span>
+                                کاربری موجود نمی باشد
+                            </span>
+                        </div>
+                    }
+
+                    <div>
+                        <p style="color:red;">
+                            توجه: نام کاربران مدیر با رنگ <span style="color:#0094ff">آبی</span> مشخص شده است.
+                        </p>
+                    </div>
+
+                    @Html.ActionLink("بازگشت", "Index", "Admin",new { }, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,38 @@
+﻿@using Sourceiran_MVC.Models.Domains;
+@using Sourceiran_MVC.Models.Repository;
+@model IEnumerable<Tbl_Products>
+
+
+@{
+    ViewBag.Title = "صفحه اصلی";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+
+<!--slider-->
+<!--Partial-->
+
+@Html.Partial("P_Slider")
+
+
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <!--قالب اصلی-->
+            <!--ShowProduct new-->
+
+            @Html.Partial("P_ShowProductNew")
+
+            <!--ShowProduct new Auction-->
+            @Html.Partial("P_ShowProductNewAuction")
+
+            <!--ShowProduct Visit-->
+            @Html.Partial("P_ProductVisit")
+
+            <!--ShowProduct Visit Auction-->
+            @Html.Partial("P_ShowProductVisitAuction")
+        </div>
+    </div>
+</section>
+

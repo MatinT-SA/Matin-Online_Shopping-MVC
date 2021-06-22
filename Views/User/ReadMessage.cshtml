@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Message>
+
+@{
+    ViewBag.Title = "پیام های ارسالی";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                <table class="table">
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserGet)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Read)
+                        </th>
+
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tbl_User.UserName)
+                            </td>
+
+                            <td>
+                                @if (item.Read == true)
+                                {
+                                    <span class="fa fa-check-circle-o" style="color:green;font-size:28px;"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-close" style="color:red;font-size:28px;"></span>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+                @Html.ActionLink("بازگشت", "Index", "User",new { }, new { @class = "btn btn-warning" })
+
+            </div>
+        </div>
+    </div>
+</section>

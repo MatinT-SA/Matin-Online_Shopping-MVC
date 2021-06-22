@@ -1,0 +1,172 @@
+﻿
+.es-nav-mobile {
+    width: 100%;
+    text-align: right;
+    cursor: pointer;
+    font-size: 30px;
+    padding: 5px 80px 0px 0px;
+    display: none;
+}
+
+.es-navbar {
+    min-height: 8.1vh;
+    background-color: #f5f5f5;
+    box-shadow: 3px 3px 3px #a1a1a1;
+    border-top:solid 1px #e1e1e1;
+    font-family: 'IRANSans-web';
+    font-weight: bold;
+    font-size: 12px;
+    z-index:10004;
+    padding: 0px 102px 0px 102px;
+    width:100%;
+}
+
+    .es-navbar a {
+        color: #484848;
+    }
+
+
+    .es-navbar .nav-btn {
+        padding-top: 17px;
+        text-align: center;
+        padding-right: 15px;
+        padding-left: 15px;
+        min-height: 7.9vh;
+        cursor: pointer;
+        float: right;
+        z-index:10004;
+    }
+
+        .es-navbar .nav-btn:hover {
+            border-bottom: 4px solid #e82139;
+            color: #e82139;
+        }
+
+            .es-navbar .nav-btn:hover a {
+                color: #e82139;
+                
+            }
+
+    .es-navbar .second-level {
+        width: 90%;
+        position: absolute;
+        z-index: 10004;
+        background-color: #f5f5f5;
+    }
+
+        .es-navbar .second-level .second-level-2 {
+            width: 100%;
+        }
+
+       
+    .es-navbar .third-level {
+        position: absolute;
+        top: 7.5vh;
+        width: 84%;
+        background-color: #ededed;
+        display: none;
+        z-index: 10003;
+    }
+
+        .es-navbar .third-level .third-level-2 {
+            width: 100%;
+            display: none;
+            background-position: center;
+            background-size: 350px 100%;
+            min-height: 260px;
+            background-position:left;
+            background-repeat:no-repeat;
+            -webkit-box-shadow: 0px 4px 4px #a1a1a1;
+            -moz-box-shadow: 0px 4px 5px #a1a1a1;
+            box-shadow: 0px 4px 4px #a1a1a1;
+        }
+
+            .es-navbar .third-level .third-level-2 .wall {
+                min-height: 260px;
+                /*border-left: 1px solid #cfcfcf;*/
+                border-bottom: 1px solid #cfcfcf;
+                z-index: 103;
+                padding: 15px;
+                padding-top: 25px;
+                width: 25%;
+                float: right;
+                margin-left : -48px;
+            }
+
+                .es-navbar .third-level .third-level-2 .wall:hover {
+                    /*border-bottom: 4px solid #e82139;
+                    background-color: rgba(222, 222, 222, 0.60);*/
+                }
+
+
+
+                .es-navbar .third-level .third-level-2 .wall .link {
+                    color: #404040;
+                    width: 100%;
+                    margin: 9px 6px 9px 6px;
+                    float: right;
+                    font-size: 12px;
+                }
+
+                    .es-navbar .third-level .third-level-2 .wall .link:hover {
+                        color: #e82139;
+                    }
+
+
+
+@media only screen and (min-width: 960px) and (max-width: 1199px) {
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+    .es-navbar {
+        box-shadow: none;
+        padding: 0px;
+    }
+     .es-navbar .second-level  {
+            width: 100%;
+        }
+
+        .es-navbar .second-level .second-level-2 .nav-btn {
+            width: 100%;
+        }
+
+            .es-navbar .second-level .second-level-2 .nav-btn a span {
+                display: none;
+            }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 767px) {
+    .es-navbar {
+        box-shadow: none;
+        padding: 0px;
+    }
+      .es-navbar .second-level  {
+            width: 100%;
+        }
+
+        .es-navbar .second-level .second-level-2 .nav-btn {
+            width: 100%;
+        }
+
+            .es-navbar .second-level .second-level-2 .nav-btn a span {
+                display: none;
+            }
+}
+
+@media only screen and (max-width: 479px) {
+    .es-navbar {
+        box-shadow: none;
+        padding: 0px;
+    }
+      .es-navbar .second-level  {
+            width: 100%;
+        }
+        .es-navbar .second-level .second-level-2 .nav-btn {
+            width: 100%;
+        }
+
+            .es-navbar .second-level .second-level-2 .nav-btn a span {
+                display: none;
+            }
+}

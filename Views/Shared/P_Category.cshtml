@@ -1,0 +1,75 @@
+﻿@using Sourceiran_MVC.Models.Struct
+@model ShowMenu
+
+<link rel="stylesheet" href="~/Content/css//Navbar.css" />
+
+<header id="topNav">
+    <div style="position:relative;">
+        <div class="es-nav-mobile">
+            <span class="fa fa-bars">
+
+            </span>
+        </div>
+
+
+        <div class="es-navbar">
+            <div class="second-level">
+                <!--main menu-->
+                <div class="second-level-2">
+
+                    @{
+                        foreach (var Menu in Model.MenuList.Where(a => a.ParentID == 1 && a.ParentID != a.ID))
+                        {
+                            <div id="elec-@Menu.ID" class="nav-btn" data-img="/Content/images/PicCategory/@Menu.Image">
+                                <a href="/Home/Category?topicid=@Menu.ID">
+                                    @Menu.Title
+                                    @if (Model.MenuList.Where(a => a.ParentID == Menu.ID).Count() > 0)
+                                    {
+                                        <span class="fa fa-sort-down"></span>
+                                    }
+                                </a>
+                            </div>
+
+                            <!--sub menu-->
+                            if (Model.MenuList.Where(a => a.ParentID == Menu.ID).Count() > 0)
+                            {
+                                <div class="third-level">
+                                    <div class="third-level-2 elec-@Menu.ID" data-id="elec-@Menu.ID">
+                                        <div class="wall">
+                                            @foreach (var Sub in Model.MenuList.Where(a => a.ParentID == Menu.ID).Skip(0).Take(6))
+                                            {
+                                                <a href="/Home/Category?topicid=@Sub.ID" class="link">@Sub.Title</a>
+                                                //@Html.ActionLink(Sub.Title, "Category", "Home", new { topidid = Sub.ID }, new { style = "" })
+                                            }
+                                        </div>
+
+                                        <div class="wall">
+                                            @foreach (var Sub in Model.MenuList.Where(a => a.ParentID == Menu.ID).Skip(6).Take(6))
+                                            {
+                                                <a href="/Home/Category?topicid=@Sub.ID" class="link">@Sub.Title</a>
+                                                //@Html.ActionLink(Sub.Title, "Category", "Home", new { topidid = Sub.ID }, new { style = "" })
+                                            }
+                                        </div>
+
+                                        <div class="wall">
+                                            @foreach (var Sub in Model.MenuList.Where(a => a.ParentID == Menu.ID).Skip(12).Take(6))
+                                            {
+                                                <a href="/Home/Category/topicid=@Sub.ID" class="link">@Sub.Title</a>
+                                                //@Html.ActionLink(Sub.Title, "Category", "Home", new { topidid = Sub.ID }, new { style = "" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<script src="~/Scripts/js/Navbar.js"></script>
+

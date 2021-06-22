@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sourceiran_MVC", "Sourceiran_MVC.csproj", "{0B1351FA-1016-4789-956D-138818AF0C01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B1351FA-1016-4789-956D-138818AF0C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1351FA-1016-4789-956D-138818AF0C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1351FA-1016-4789-956D-138818AF0C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1351FA-1016-4789-956D-138818AF0C01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A30FF3A-ABE5-4D24-BD7A-8610D3A9AB2B}
+	EndGlobalSection
+EndGlobal

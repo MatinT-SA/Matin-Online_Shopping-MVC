@@ -1,0 +1,90 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_User
+
+@{
+    ViewBag.Title = "صفحه ثبت نام";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="container padding-top-30">
+    <section class="padding-bottom-20 padding-top-10 noborder-bottom">
+        <div class="row sky-form boxed">
+            <div class="col-xs-12 col-sm-10 col-md-8 col-md-offset-2 ">
+
+                @using (Html.BeginForm("Register", "Register", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <header style="margin-top:15px; margin-bottom:25px;">
+                            <i class="fa fa-users"></i>
+                            &nbsp;&nbsp;   ثبت نام
+                        </header>
+
+                        @Html.ValidationSummary(false, "فیلدهای الزامی را وارد نمایید", new { @class = "message-error alert alert-warning  text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-md-3 nopadding-right padding-top-10 red">
+                                @Html.LabelFor(model => model.UserName, "*", new { @class = "text-danger", @style = "font-size: 31px;margin-top: -30px;color: rgb(255, 5, 5) !important;margin-right: -7px;" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-md-3 nopadding-right padding-top-10 red">
+                                @Html.LabelFor(model => model.UserName, "*", new { @class = "text-danger", @style = "font-size: 31px;margin-top: -30px;color: rgb(255, 5, 5) !important;margin-right: -7px;" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-md-3 nopadding-right padding-top-10 red">
+                                @Html.LabelFor(model => model.UserName, "*", new { @class = "text-danger", @style = "font-size: 31px;margin-top: -30px;color: rgb(255, 5, 5) !important;margin-right: -7px;" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NatCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.NatCode, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-md-3 nopadding-right padding-top-10 red">
+                                @Html.LabelFor(model => model.UserName, "*", new { @class = "text-danger", @style = "font-size: 31px;margin-top: -30px;color: rgb(255, 5, 5) !important;margin-right: -7px;" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-md-3 nopadding-right padding-top-10 red">
+                                @Html.LabelFor(model => model.UserName, "*", new { @class = "text-danger", @style = "font-size: 31px;margin-top: -30px;color: rgb(255, 5, 5) !important;margin-right: -7px;" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-6">
+                                <input type="submit" value="ثبت نام" class="btn btn-success" />
+                                @Html.ActionLink("انصراف", "Index", "Home",new { }, new { @class = "btn btn-warning" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </section>
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

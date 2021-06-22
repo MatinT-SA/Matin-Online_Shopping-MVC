@@ -1,0 +1,114 @@
+
+.t-rightmenu {
+    border: solid 1px #dfdfdf;
+    min-height: 84vh;
+    padding: 0px;
+    list-style: none;
+    margin: 0px;
+    font-family: 'iranSANS-web';
+    padding-bottom:10px;
+    margin-bottom:10px;
+ 
+}
+
+    .t-rightmenu .t-header {
+        background-color: #dfdfdf;
+        text-align: right;
+        padding: 0;
+        padding: 10px 10px 10px 10px;
+        margin: 0;
+    }
+
+        .t-rightmenu .t-header a {
+            color: #686868;
+            text-decoration: none;
+            float: right;
+        }
+
+        .t-rightmenu .t-header span {
+            color: #FFF;
+            float: left;
+        }
+
+
+
+
+    .t-rightmenu .t-group {
+        padding: 10px;
+
+    }
+
+        .t-rightmenu .t-group .t-title {
+            text-align: right;
+            padding: 7px;
+        }
+
+        .t-rightmenu .t-group{
+            border-bottom: solid 1px #b5b5b5;
+        }
+
+        .t-rightmenu .t-group ul {
+            list-style: none;
+        }
+
+
+
+            .t-rightmenu .t-group ul li {
+                padding: 0px 0px 0px 0px;
+
+
+            }
+
+                .t-rightmenu .t-group ul li a {
+                    text-decoration: none;
+                }
+
+
+
+                    .t-rightmenu .t-group ul li a label {
+                        padding-right: 10px;
+                        cursor: pointer;
+                        width: 100%;
+                    }
+
+                        .t-rightmenu .t-group ul li a label input[type="checkbox"] {
+                            border: 0px;
+                            width: 15px;
+                            height: 15px;
+                            cursor: pointer;
+                        }
+
+                        .t-rightmenu .t-group ul li a label span {
+                            float: left;
+                            margin-top:10px;
+                        }
+
+        .t-rightmenu .t-group .t-color {
+            width: 15px;
+            height: 15px;
+            border: solid 1px #ededed;
+            border-radius: 20%;
+
+        }
+
+        .t-rightmenu .t-group .t-plus {
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .t-rightmenu .t-group .t-color-bx {
+            display: none;
+        }
+
+
+@media only screen and (min-width: 960px) and (max-width: 1199px) {
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+}
+
+@media only screen and (min-width: 400px) and (max-width: 767px) {
+}
+
+@media only screen and (max-width: 479px) {
+}

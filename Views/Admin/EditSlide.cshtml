@@ -1,0 +1,120 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Slider
+
+@{
+    ViewBag.Title = "ویرایش اسلایدر";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+        <div style="@ViewBag.Style" class="@ViewBag.Class">
+            @if (ViewBag.Style != null)
+            {
+                <button type="button" class="close" data-dismiss="alert">×</button>
+            }
+
+            @Html.Raw(ViewBag.Message)
+        </div>
+
+        @using (Html.BeginForm("EditSlide", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                
+                <hr />
+                @Html.ValidationSummary(false, "خطاها", new { @class = "text-danger" })
+
+            <input type="hidden" name="id" value="@Model.ID" />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sort, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Sort, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Sort, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <span class="btn btn-info btn-file">
+                            <i class="fa fa-upload"></i> بارگذاری تصویر... <input type="file" name="ImageSlide" value="" />
+                        </span>
+                        <style>
+                            .btn-file {
+                                position: relative;
+                                overflow: hidden;
+                            }
+
+                                .btn-file input[type=file] {
+                                    position: absolute;
+                                    top: 0;
+                                    right: 0;
+                                    min-width: 100%;
+                                    min-height: 100%;
+                                    font-size: 100px;
+                                    text-align: right;
+                                    filter: alpha(opacity=0);
+                                    opacity: 0;
+                                    outline: none;
+                                    background: white;
+                                    cursor: inherit;
+                                    display: block;
+                                }
+                        </style>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <img src="~/Content/images/Slider/Slid/@Model.Image" alt="" style="width:150px;height:90px;" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Enable, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Enable)
+                            @Html.ValidationMessageFor(model => model.Enable, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="ویرایش اسلایدر" class="btn btn-success" />
+                        @Html.ActionLink("بازگشت", "ManageSlide", "Admin",new { }, new { @class = "btn btn-warning" })
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

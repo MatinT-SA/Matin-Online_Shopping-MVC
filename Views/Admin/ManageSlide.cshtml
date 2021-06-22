@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Slider>
+
+@{
+    ViewBag.Title = "لیست اسلایدر";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+        <h2>لیست اسلایدرها</h2>
+        <hr />
+        <div id="gridView">
+            <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                <div class="grid-wrap ">
+
+                    <div style="@ViewBag.Style" class="@ViewBag.Class">
+                        @if (ViewBag.Style != null)
+                        {
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                        }
+
+                        @Html.Raw(ViewBag.Message)
+                    </div>
+
+                    <p>
+                        @Html.ActionLink(" ", "CreateSlide", "Admin", new { style = "" }, new { @class = "fa fa-plus-circle", @style = "color:green; font-size:25px;" })
+                    </p>
+
+                    @if (Model != null)
+                    {
+                        <table class="table table-striped grid-table">
+                            <tr>
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Sort)
+                                </th>
+
+                                <th class="grid-header">
+                                    @Html.DisplayNameFor(model => model.Image)
+                                </th>
+
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                string s = "";
+                                if (item.Enable == false)
+                                {
+                                    s = "background-color:yellow;";
+                                }
+                                <tr style="@s" class="grid-row">
+
+                                    <td class="grid-cell">
+                                        <a href="/Admin/DetailsSlide?id=@item.ID">
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </a>
+                                    </td>
+                                    <td class="grid-cell">
+                                        @Html.DisplayFor(modelItem => item.Sort)
+                                    </td>
+
+                                    <td class="grid-cell">
+                                        <img src="~/Content/images/Slider/Slid/@item.Image" alt="" style="height:60px;width:100px;" />
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink(" ", "EditSlide", new { id = item.ID }, new { @class = "fa fa-edit", @style = "color:green; font-size:18px;" }) |
+
+                                        @Html.ActionLink(" ", "DeleteSlide", new { id = item.ID }, new { @class = "fa fa-trash", @style = "color:red; font-size:18px;", onclick = "return confirm('آیا از حذف این اسلایدر مطمئن هستید؟');" })
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert  alert-danger">
+                            <span>
+                                اسلایدری موجود نمی باشد
+                            </span>
+                        </div>
+                    }
+
+                    @Html.ActionLink("بازگشت", "Index", "Admin",new { }, new { @class = "btn btn-warning" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

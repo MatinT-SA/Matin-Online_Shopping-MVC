@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a52991fabc25437f9580f0cd85c15d86" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Auction" Width="1.5" PointX="6" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_BankNum" Width="1.5" PointX="3" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Bills" Width="1.5" PointX="3" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Captcha" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Categories" Width="1.5" PointX="3.75" PointY="40.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Color" Width="1.5" PointX="8.25" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Comment" Width="1.5" PointX="8.25" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_ConfirmEmail" Width="1.5" PointX="3" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_ConfirmMobile" Width="1.5" PointX="3" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Filter" Width="1.5" PointX="9" PointY="39.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Filter_Product" Width="1.5" PointX="11.25" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Gallery" Width="1.5" PointX="8.25" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_GroupFilter" Width="1.5" PointX="6.75" PointY="39.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_GroupFilter_Categories" Width="1.5" PointX="9" PointY="43" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_KeyWord" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Likes" Width="1.5" PointX="6" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Menu" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Message" Width="1.5" PointX="3" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Payment" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Products" Width="1.5" PointX="6" PointY="27.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Sales" Width="1.5" PointX="11.25" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Setting" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_ShoppingCarts" Width="1.5" PointX="8.25" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Slider" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Status" Width="1.5" PointX="9" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_TempShoppingCart" Width="1.5" PointX="10.5" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_User" Width="1.5" PointX="0.75" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Visit" Width="1.5" PointX="11.25" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSIModel.Tbl_Zarinpal" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Auction_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Auction_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_BankNum_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Bills_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_GroupFilter_Categories_Tbl_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Products_Tbl_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Color_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Comment_Tbl_Comment" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Comment_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_ConfirmEmail_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_ConfirmMobile_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Filter_Product_Tbl_Filter" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Filter_Tbl_GroupFilter" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Filter_Product_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Gallery_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_GroupFilter_Categories_Tbl_GroupFilter" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Likes_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Likes_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Message_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Message_Tbl_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Products_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Sales_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_ShoppingCarts_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Visit_Tbl_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Sales_Tbl_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Sales_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_ShoppingCarts_Tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_TempShoppingCart_Tbl_ShoppingCarts" ManuallyRouted="false" />
+        <AssociationConnector Association="DBSIModel.FK_Tbl_Visit_Tbl_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

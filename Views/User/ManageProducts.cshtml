@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Products>
+
+@{
+    ViewBag.Title = "مدیریت محصولات";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                <p>
+                    @Html.ActionLink("اضافه کردن", "CreateProduct", "User", new { syle = "" }, new { @class = "fa fa-plus-square", @style = "color:#00fe6b; font-size:30px; text-decoration:none;" })
+                </p>
+
+                @if (Model != null)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ImageIndex)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Visit)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ExitCount)
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            string style = "";
+                            if (item.AuctionDate != null)
+                            {
+                                style = "background-color:#FFF2A9;";
+
+                                if (item.AuctionDate < DateTime.Now)
+                                {
+                                    style = "background-color:#fca7b1;";
+                                }
+
+                            }
+                            <tr style="@style">
+
+                                <td>
+                                    <a href="/Home/Product?id=@item.ID">@Html.DisplayFor(modelItem => item.Title)</a>
+                                </td>
+                                <td>
+                                    <img src="~/Content/images/PicProduct/@item.ImageIndex" alt="@item.Title" style="width:35px;height:35px;" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Visit)
+                                </td>
+                                <td>
+                                    @{ UtilityFunction u = new UtilityFunction();}
+                                    @u.Shamsi(item.Date).ToShortDateString()
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExitCount)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink(" ", "EditProduct", new { id = item.ID }, new { @class = "fa fa-edit", @style = "text-decoration:none;font-size:20px;color:#00fe6b;" }) |
+                                    @Html.ActionLink(" ", "DeleteProduct", new { id = item.ID }, new { @class = "btn-xs fa fa-trash-o", @style = "color:red;text-decoration:none;font-size:20px;", onclick = "return confirm('آیا از حذف این محصول مطمئن هستید؟');" })
+                                    @if (item.AuctionDate < DateTime.Now)
+                                    {
+                                        @Html.ActionLink(" ", "Start", new { id = item.ID }, new { @class = "fa fa-hourglass-start", @style = "color:#0026ff; font-size:20px; text-decoration:none;" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                    <div>
+                        <center>
+                            @{
+                                decimal Count = ViewBag.Count;
+                                decimal Take = ViewBag.Take;
+
+                                decimal math = Math.Ceiling(Count / Take);
+
+                                <ul class="pagination">
+                                    @if (math > 1)
+                                    {
+                                        for (int i = 1; i <= math; i++)
+                                        {
+                                            <li>
+                                                <a href="/User/ManageProducts?page=@i.ToString()">@i.ToString()</a>
+                                            </li>
+                                        }
+                                    }
+
+                                </ul>
+                            }
+                        </center>
+                    </div>
+                }
+                
+
+                @Html.ActionLink("بازگشت", "Index", "User",new { }, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    </div>
+</section>

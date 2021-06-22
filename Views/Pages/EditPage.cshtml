@@ -1,0 +1,93 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Menu
+
+@{
+    ViewBag.Title = "ویرایش صفحه";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section jsckeditor{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+        <!--قالب اصلی-->
+
+        <div class="@ViewBag.Class" style="@ViewBag.Style">
+            @if (ViewBag.Style != null)
+            {
+                <span type="button" class="close" aria-label="Close" data-dismiss="alert">&times;</span>
+            }
+            @ViewBag.Message
+        </div>
+
+        @using (Html.BeginForm("EditPage", "Pages", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sort, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Sort, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Sort, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.HiddenFor(model => model.TitlePage)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ContentPage, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.ContentPage, new { @class = "ckeditor" })
+                        @Html.ValidationMessageFor(model => model.ContentPage, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Enable, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Enable, new { htmlAttributes = new { @style = "margin: 10px 13px 0;" } })
+                        @Html.ValidationMessageFor(model => model.Enable, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="ویرایش صفحه" class="btn btn-success" />
+                        @Html.ActionLink("بازگشت", "ListPages", "Pages", new { }, new { @class = "btn btn-warning" })
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    </div>
+</div>

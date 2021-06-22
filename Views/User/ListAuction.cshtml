@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Sales>
+
+@{
+    ViewBag.Title = "لیست مزایدات برنده شده";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="color:#fff;">
+
+                @{
+                    if (Model != null)
+                    {
+                        <div class="well" style="background-color:#fff;">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ProductID)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UserID)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Price)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Date)
+                                        </th>
+                                    </tr>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Tbl_Products.Title)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Tbl_User.UserName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                @{
+                                                    UtilityFunction u = new UtilityFunction();
+                                                }
+                                                @u.Shamsi(item.Date).ToShortDateString();
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink("پرداخت آنلاین", "PaymentAuction", new { id = item.ID }, new { @class = "btn btn-success btn-xs" })
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+
+
+
+                                <div>
+                                    <center>
+                                        @{
+                                            decimal Count = ViewBag.Count;
+                                            decimal Take = ViewBag.Take;
+
+                                            decimal math = Math.Ceiling(Count / Take);
+
+                                            <ul class="pagination">
+                                                @if (math > 1)
+                                                {
+                                                    for (int i = 1; i <= math; i++)
+                                                    {
+                                                        <li>
+                                                            <a href="~/User/ListAuction/?page=@i.ToString()">@i.ToString()</a>
+                                                        </li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        }
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="well" style="height:270px;background-color:#fff;">
+                            <div style="@ViewBag.Style" class="@ViewBag.Class">
+                                @if (ViewBag.Style != null)
+                                {
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                }
+
+                                @Html.Raw(ViewBag.Message)
+                            </div>
+                        </div>
+                    }
+                }
+
+                @Html.ActionLink("بازگشت", "Index", "User",new { }, new { @class = "btn btn-warning" })
+
+            </div>
+        </div>
+    </div>
+</section>

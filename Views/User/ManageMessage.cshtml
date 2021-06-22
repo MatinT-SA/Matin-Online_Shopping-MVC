@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Sourceiran_MVC.Models.Domains.Tbl_Message>
+
+@{
+    ViewBag.Title = "مدیریت پیام ها";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                <p>
+                    @Html.ActionLink(" ", "CreateMessage", "User", new { style = "" }, new { @class = "fa fa-plus-circle", @style = "color:green; font-size:25px;" })
+                </p>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserSend)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        string style = "";
+                        if (item.Read == false)
+                        {
+                            style = "font-weight:700;";
+                        }
+                        <tr style="@style">
+                            <td>
+                                @{
+                                    UtilityFunction u = new UtilityFunction();
+                                }
+                                @u.Shamsi(item.Date).ToShortDateString()
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+
+                            <td>
+                                @if (item.UserSend == null)
+                                {
+                                    <span>
+                                        فروشگاه متین
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        @item.Tbl_User1.UserName
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink(" ", "DetailsMessage", new { id = item.ID }, new { @class = "fa fa-eye", @style = "font-size:16px;" }) |
+                                @Html.ActionLink(" ", "DeleteMessage", new { id = item.ID }, new { @class = "fa fa-trash", @style = "color:red; font-size:18px;", onclick = "return confirm('آیا از حذف این پیام مطمئن هستید؟');" })
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                @Html.ActionLink("بازگشت", "Index", "User",new { }, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    </div>
+</section>

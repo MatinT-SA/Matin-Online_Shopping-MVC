@@ -1,0 +1,226 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Products
+
+@{
+    ViewBag.Title = "اضافه کردن محصولات جدید";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+@section jsckeditor{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="well" style="background-color:#fff;">
+
+                <div style="@ViewBag.Style" class="@ViewBag.Class">
+                    @if (ViewBag.Style != null)
+                    {
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                    }
+
+                    @Html.Raw(ViewBag.Message)
+                </div>
+
+                @using (Html.BeginForm("CreateProduct", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(false, "خطاها:", new { @class = "text-danger" })
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ImageIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <span class="btn btn-info btn-file">
+                                    <i class="fa fa-upload"></i> بارگذاری تصویر... <input type="file" name="ImageIndex" value="" />
+                                </span>
+                                <style>
+                                    .btn-file {
+                                        position: relative;
+                                        overflow: hidden;
+                                    }
+
+                                        .btn-file input[type=file] {
+                                            position: absolute;
+                                            top: 0;
+                                            right: 0;
+                                            min-width: 100%;
+                                            min-height: 100%;
+                                            font-size: 100px;
+                                            text-align: right;
+                                            filter: alpha(opacity=0);
+                                            opacity: 0;
+                                            outline: none;
+                                            background: white;
+                                            cursor: inherit;
+                                            display: block;
+                                        }
+                                </style>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TopicID, htmlAttributes: new { @class = "control-label col-md-2", @style = "margin-bottom:75px;" })
+                            <div class="col-md-10">
+                                @Html.Partial("P_Topic")
+
+                                <input type="button" class="btn btn-sm btn-warning" name="Btn_Filter" value="ایجاد فیلتر" onclick="Filter()" />
+                            </div>
+                        </div>
+
+                        <div id="AddFilter" class="form-group" style="margin-right: 160px;margin-top: 70px;">
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("آیا قصد دارید محصول را به صورت مزایده ای قرار بدید؟", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-4">
+                                <input type="checkbox" name="AuctionDate" value="1" />
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Text, new { @class = "ckeditor" })
+                                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ExitCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ExitCount, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ExitCount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Warranty, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("گالری تصاویر", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div id="Gallery">
+                                    <span class="btn btn-info btn-file">
+                                        <i class="fa fa-upload"></i> بارگذاری تصویر...<input type="file" name="GalleryProduct" value="" />
+                                    </span>
+                                </div>
+                                <button class="btn btn-sm btn-warning" type="button" onclick="AddImage()">افزودن بیشتر...</button>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("رنگ کالا", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+
+                                @*@{
+                                        Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+                                        var color = from a in db.Tbl_Color
+                                                    orderby a.NameColor
+                                                    select a;
+                                        foreach (var item in color)
+                                        {
+                                            @item.NameColor <input type="checkbox" name="CheckColor" value="@item.ID" />
+                                        }
+                                    }*@
+
+                                <span>سفید</span><input type="radio" name="rcolor" value="1" checked="checked" />
+                                <span>قرمز</span><input type="radio" name="rcolor" value="2" />
+                                <span>آبی</span><input type="radio" name="rcolor" value="3" />
+                                <span>مشکی</span><input type="radio" name="rcolor" value="4" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="ثبت" class="btn btn-default" />
+                                @Html.ActionLink("بازگشت", "ManageProducts", "User", new { }, new { @class = "btn btn-warning" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div>
+
+                </div>
+
+                <script>
+                    function AddImage() {
+                        $("#Gallery").append("<span class='btn btn-info btn-file'><i class='fa fa-upload'></i> بارگذاری تصویر...<input type='file' name='GalleryProduct' value='' /></span>")
+                    }
+
+                    function Filter() {
+                        $.ajax({
+                            url: '/Home/AddFilter',
+                            type: 'POST',
+                            dataType: 'Html',
+                            data: {
+                                topicid: $('#TopicID').val()
+                            },
+                            error: function (err) {
+                                BootstrapDialog.show({
+                                    title: 'نمایش فیلترها',
+                                    type: BootstrapDialog.TYPE_SUCCESS,
+                                    message: 'خطا در نمایش'
+                                });
+                            }
+                        }).done(function (data) {
+                            $('#AddFilter').html(data)
+                        })
+                    }
+                </script>
+
+                <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+            </div>
+        </div>
+    </div>
+</section>

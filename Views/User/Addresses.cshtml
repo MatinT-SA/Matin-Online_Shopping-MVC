@@ -1,0 +1,90 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_User
+
+@{
+    ViewBag.Title = "آدرس";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+
+<div class="container padding-top-20  padding-bottom-20">
+
+    @Html.Partial("P_Profile")
+
+    <div class="col-md-9 col-xs-12 ">
+        <div class="page account-page address-list-page">
+
+            <div class="page-title text-center well" style="background-color:#fff;">
+                <h4>حساب کاربری من - آدرس</h4>
+            </div>
+            <div class="divider divider-center divider-color nomargin-top margin-bottom-20">
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="page-body well" style="background-color:#fff;">
+                <div class="address-list">
+                    <div class="side-nav">
+                        <div class="side-nav-head">
+                            <h4>@Model.Name</h4>
+                        </div>
+                        <ul class="list-group list-unstyled">
+                            <li class="list-group-item"><a><label for="Addresses_0__Email">پست الکترونیک:</label> <span class="red">@Model.Email</span> </a></li>
+                            <li class="list-group-item"><a><label for="Addresses_0__PhoneNumber">شماره تلفن:</label> <span class="red">@Model.Mobile</span></a> </li>
+                            @if (Model.Name == null)
+                            {
+                                <li class="list-group-item"><a>نام و نام خانوادگی : <span class="red">ثبت نشده</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><a>نام و نام خانوادگی : <span class="red">@Model.Name </span></a> </li>
+                            }
+                            @if (Model.Shire == null)
+                            {
+                                <li class="list-group-item"><a>استان : <span class="red">ثبت نشده</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><a>استان : <span class="red">@Model.Shire</span></a> </li>
+                            }
+                            @if (Model.City == null)
+                            {
+                                <li class="list-group-item"><a>شهر : <span class="red">ثبت نشده</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><a>شهر : <span class="red">@Model.City</span></a> </li>
+                            }
+                            @if (Model.Address == null)
+                            {
+                                <li class="list-group-item"><a>آدرس  : <span class="red">ثبت نشده</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><a>آدرس :<span class="red">@Model.Address</span></a> </li>
+                            }
+                            @if (Model.PostalCode == null)
+                            {
+                                <li class="list-group-item"><a>کدپستی : <span class="red">ثبت نشده</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><a>کد پستی :<span class="red">@Model.PostalCode</span></a> </li>
+                            }
+
+                            @if (Model.Phone == null)
+                            {
+                                <li class="list-group-item"><a>شماره منزل : <span class="red">ثبت نشده</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><a>شماره منزل  :<span class="red">@Model.Phone</span></a> </li>
+                            }
+
+                        </ul>
+                        <input class="button-2 edit-address-button btn btn-info  " onclick="location.href='/User/Addressesedit'" value="ویرایش" type="button">
+                        @Html.ActionLink("بازگشت", "Index", "User",new { }, new { @class = "btn btn-warning" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

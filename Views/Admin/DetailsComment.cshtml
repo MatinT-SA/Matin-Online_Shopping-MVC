@@ -1,0 +1,115 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Comment
+
+@{
+    ViewBag.Title = "جزئیات کامنت";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="col-xs-12 col-sm-9 col-md-9 " style="float:left" id="mainContent">
+    <script type="text/javascript" src="/Scripts/froala_editor.min.js"></script>
+    <script type="text/javascript" src="/Scripts/langs/fa.js"></script>
+
+    <div class="container-fluid" id="pjaxContainer">
+
+        <div>
+            <style>
+                dt {
+                    float: right !important;
+                    font-size: 15px;
+                    font-family: B Titr;
+                    margin-bottom: 15px;
+                    background-color: rgb(255, 224, 161);
+                    margin-left: 30px;
+                    height: 35px;
+                    width: 135px;
+                    text-align: center !important;
+                    padding-top: 5px;
+                }
+            </style>
+            <h3>@Model.Tbl_Products.Title</h3>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ProductID)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @if (Model.Email != null)
+                    {
+                        @Html.DisplayFor(model => model.Email)
+                    }
+                    else
+                    {
+                        <span>ایمیلی موجود نیست</span>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Web)
+                </dt>
+
+                <dd>
+                    @if (Model.Web != null)
+                    {
+                        @Html.DisplayNameFor(model => model.Web)
+                    }
+                    else
+                    {
+                        <span>وب سایت ذکر نشده</span>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Text)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Text)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+
+                <dd>
+                    @{
+                        UtilityFunction u = new UtilityFunction();
+                    }
+                    @u.Shamsi(Model.Date).ToShortDateString()
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IP)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IP)
+                </dd>
+
+
+
+
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("بازگشت", "ListComments", "Admin",new { }, new { @class = "btn btn-warning" })
+        </p>
+    </div>
+</div>

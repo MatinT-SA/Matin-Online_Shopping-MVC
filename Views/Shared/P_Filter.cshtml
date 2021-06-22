@@ -1,0 +1,62 @@
+﻿@model Sourceiran_MVC.Models.Domains.Tbl_Categories
+@using Sourceiran_MVC.Models.Domains
+
+@if (Model != null)
+{
+    <div class="form-group">
+        <div class="col-md-4" style="margin-top: -53px;"><span class="list-group-item list-group-item-info">فیلتر ها</span></div>
+
+        <div class="col-md-4">
+
+
+            @{
+                DBSI db = new DBSI();
+
+                var qfilter = (from a in db.Tbl_GroupFilter_Categories
+                               join b in db.Tbl_GroupFilter on a.GroupFilterID equals b.ParentID
+                               where a.TopicID == Model.ID && b.ID != b.ParentID
+                               select b);
+
+                List<Tbl_GroupFilter> lstg = new List<Tbl_GroupFilter>();
+                lstg.AddRange(qfilter);
+
+                if (lstg.Count() > 0)
+                {
+                    List<int> lstfilter = ViewBag.Checkfilter;
+                    foreach (var item in qfilter)
+                    {
+                        <span class="list-group-item list-group-item-warning"> @item.Title</span>
+                        <ul class="list-group">
+                            @{
+                                var qfil = from a in db.Tbl_Filter
+                                           where a.GroupFilterID == item.ID
+                                           select a;
+
+                                foreach (var item1 in qfil)
+                                {
+                                    <li class="list-group-item list-group-item-success">
+                                        <input type="checkbox" name="checkfilter" value="@item1.ID" />@item1.Title
+                                    </li>
+                                }
+
+                            }
+                        </ul>
+
+                    }
+
+                }
+                else
+                {
+                    <p>فیلتری  برای این دسته موجود نیست</p>
+                }
+
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p>دسته مورد نظر یافت نشد</p>
+}
+
+

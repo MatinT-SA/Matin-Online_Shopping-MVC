@@ -1,0 +1,311 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="fa">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800" />
+    <title>پروفایل مدیریت</title>
+    <noscript>
+        <meta http-equiv="refresh" content="0;url='/JobSeeker/Error/JavascriptEnabal'">
+    </noscript>
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/~/Content/css/font-awesome.min.css">*@
+    @*<link href="~/Content/css/bootstrap-flipped.min.css" rel="stylesheet" />*@
+
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/jquery.msg.css" rel="stylesheet" />
+    <link href="/Content/select2.min.css" rel="stylesheet" />
+    <link href="/Content/flaticon.css" rel="stylesheet" />
+    <link href="/Content/entypo.css" rel="stylesheet" />
+    <link href="/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/content/css/sourceiran.css" type="text/css" rel="stylesheet" />
+
+
+    @RenderSection("jsckeditor", false)
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/site.js"></script>
+    @*<script src="~/Scripts/jquery.pjax.js"></script>*@
+    <script src="~/Scripts/jquery.center.min.js"></script>
+    <script src="~/Scripts/jquery.msg.js"></script>
+    <script src="~/Scripts/Angle/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/gridmvc.js"></script>
+    <script src="~/Scripts/gridmvc.lang.ru.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(document).pjax('a', '#pjaxContainer');
+
+            $("ul.nav > li > a").click(function (e) {
+                var href = $(this).attr('href').toString();
+                if (href.charAt(href.length) == "#" || href == "#")
+                    e.preventDefault();
+
+                if (!$(this).hasClass("dropdown-toggle")) {
+                    var id = $(this).attr('id');
+                    if (id != "menu") {
+                        $("ul.nav > li.Selected").removeClass("Selected");
+                        $(this).parent().addClass("Selected");
+                    }
+                }
+            });
+
+        });
+    </script>
+</head>
+
+<body style="text-align:right;">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header" style="width:100%">
+
+            <a class="navbar-brand" style="float:right;" href="/Admin/Index">بخش مدیریت</a>
+
+            <div id="navbarMenu" style="float:left;">
+                <a href="/Admin/Index" id="changePicture">
+                    <img id="imgJobSeeker" class="userProfile-img " src="~/Content/images/User/profile.png" alt="تصویر کاربر" />
+                </a>
+
+                @{
+                    Sourceiran_MVC.Models.Domains.DBSI db = new Sourceiran_MVC.Models.Domains.DBSI();
+
+                    string admin = Session["Admin"].ToString();
+
+                    var q = db.Tbl_User.Where(a => a.UserName.Equals(admin)).SingleOrDefault();
+                }
+                <ul class="nav navbar-nav" style="margin-left:1px;">
+                    <li class="pull-left">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@q.UserName  </a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="/Admin/ChangePassword">تغییر کلمه عبور</a></li>
+
+                            <li class="divider"></li>
+                            <li>
+                                <a href="javascript:document.getElementById('logoutForm').submit()">خروج</a>
+                                <form action="/Register/LogOut" id="logoutForm" method="post">
+                                    <input name="__RequestVerificationToken" type="hidden" value="fmI0pEjDnFF6e7TuFMBM5OODzIPFEnMB7pJe5dSyeIfG2gKYon7xXGy_a1zZfq3v41CD1kV3emPaqAT4vDA1afXl4x4lCP-Edz3UMTdE3rWNtbxQSktAagu5pbZcnS55UgK2zw2" />
+                                </form>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container-fluid" style="padding-top:10px;" id="TheContainer">
+        <div class="row" id="TheContent" style="margin-bottom:0px;">
+            <div class="col-xs-12 col-sm-3 col-md-3 pull-right rightPanel fullHeight " id="mainMenu">
+                <div class="alert-info center" style="margin-left: 0px; margin-right: 0px;">
+                    وضعیت دسترسی شما : <span>@(q.Status == true ? " فعال می باشد" : "درانتظار تایید")</span>
+                </div>
+
+
+                @if (q.UserName == "Admin")
+                {
+                    <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                        <li class="active" data-toggle="collapse" data-target="#info"><a href="#" id="menu"> مدیریت کاربران </a></li>
+                    </ul>
+                    <ul class="nav nav-list collapse" id="info" style="list-style-type:none; padding:0px">
+                        <li><a href="/Admin/ManageUser">1- اطلاعات فردی</a></li>
+                    </ul>
+                }
+
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#sliders"><a href="#" id="menu">مدیریت اسلایدر</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="sliders" style="list-style-type:none; padding:0px">
+                    <li>
+                        <a href="/Admin/ManageSlide">لیست اسلایدها</a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#status"><a href="#" id="menu">وضعیت های ارسال</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="status" style="list-style-type:none; padding:0px">
+                    <li><a href="/Admin/Status">مدیریت وضعیت</a> </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#bills"><a href="#" id="menu">مدیریت صورت حساب ها</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="bills" style="list-style-type:none; padding:0px">
+                    <li><a href="/Admin/ManageBill">صورت حساب ها</a> </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#filters"><a href="#" id="menu">مدیریت فیلترها</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="filters" style="list-style-type:none; padding:0px">
+                    <li><a href="/Admin/ManageFilter">لیست گروه های اصلی</a> </li>
+                    <li><a href="/Admin/SubFilter">لیست گروه های فرعی</a> </li>
+                    <li><a href="/Admin/Filters">لیست فیلترها</a> </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#settings"><a href="#" id="menu">مدیریت تنظیمات</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="settings" style="list-style-type:none; padding:0px">
+                    <li><a href="/Admin/EditSettings">تنظیمات</a> </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#pages"><a href="#" id="menu">مدیریت صفحات</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="pages" style="list-style-type:none; padding:0px">
+                    <li><a href="/Pages/ListPages">لیست صفحات</a> </li>
+                </ul>
+
+                <ul class="nav nav-pills nav-stacked" style="list-style-type:none; padding:0px">
+                    <li class="active" data-toggle="collapse" data-target="#comments"><a href="#" id="menu">مدیریت کامنت ها</a></li>
+                </ul>
+                <ul class="nav nav-list collapse" id="comments" style="list-style-type:none; padding:0px">
+                    <li><a href="/Admin/ListComments">لیست کامنت ها</a> </li>
+                </ul>
+
+
+            </div>
+
+            @*<div class="container-fluid" id="pjaxContainer">
+
+
+
+                    <h2>لیست معرفی نامه ها</h2>
+                    <hr />
+                    <div id="gridView">
+                        <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                            <div class="grid-wrap">
+                                <table class="table table-striped grid-table">
+
+                                    <thead>
+                                        <tr>
+                                            <th class="grid-header" style="width:100px;"><div class="grid-header-title"><a href="?grid-column=LetterNumber&amp;grid-dir=0">شماره نامه</a></div></th>
+                                            <th class="grid-header" style="width:100px;"><div class="grid-header-title"><a href="?grid-column=EmployerName&amp;grid-dir=0">نام کارفرما</a></div></th>
+                                            <th class="grid-header" style="width:100px;"><div class="grid-header-title"><a href="?grid-column=JobOpportunityName&amp;grid-dir=0">عنوان شغل</a></div></th>
+                                            <th class="grid-header" style="width:100px;"><div class="grid-header-title"><a href="?grid-column=CreateTime&amp;grid-dir=0">تاریخ صدور</a></div></th>
+                                            <th class="grid-header" style="width:100px;"><div class="grid-header-title"><a href="?grid-column=Result&amp;grid-dir=0">نتیجه پیگیری</a></div></th>
+                                            <th class="grid-header" style="width:50px;"><div class="grid-header-title"><a href="?grid-column=IsLaw80&amp;grid-dir=0">ماده 80</a></div></th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr class="grid-empty-text">
+                                            <td colspan="6">
+                                                هیچ معرفی نامه ای برای مشاهده وجود ندارد
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div class="grid-footer">
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>*@
+
+            @RenderBody()
+
+        </div>
+    </div>
+
+
+
+    <script src="~/Scripts/Angle/bootstrap.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <div class="myModal" id="modalLoading"></div>
+    <div id="loading-indicator">
+    </div>
+
+    <div class="modal fade in " id="editablePanel" role="dialog" aria-hidden="true" aria-labelledby="ModalLabels">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"> &times; </span><span class="sr-only">بستن</span></button>
+                    <h4 class="modal-title" id="ModalLabels">تکمیل اطلاعات</h4>
+                </div>
+                <div class="modal-body center ">
+                    <div id="editSection">
+                        <img src='~/Content/Images/loading.gif' />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("a[data-link='popup']").click(function (e) {
+            e.preventDefault();
+            var link = $(this).attr("href");
+            $.get(link, '', function (data) {
+                $("#editSection").html('');
+                $('#editablePanel').modal('show');
+                $("#editSection").html(data);
+                $('#editPanel').removeData("modal");
+            });
+
+        });
+
+        $("select:not(.noSelect)").select2({ dir: 'rtl' });
+
+        $.get('/JobSeeker/Home/GetAvator', '', function (data) {
+            if (data.length > 0)
+                $("#imgJobSeeker").attr("src", data);
+        });
+
+        $("#PrintResume").click(function (e) {
+            //e.preventDefault();
+            $(this).printPage({
+
+                url: '/JobSeeker/Resume/PrintResume',
+                message: "در حال آماده سازی اطلاعات رزومه شما برای چاپ"
+
+            });
+            return false;
+        });
+
+        $("#stopSearching").click(function (e) {
+            e.preventDefault();
+
+            $.bootstrapModalConfirm({
+                body: 'با انصراف دادن از جستجوی شغل، نام شما دیگر در بین کارجوهای سیستم برای نمایش به کارفرما ها نبوده، و دیگر قادر به دریافت لیست آخرین فرصت های شغلی متناسب با رزومه خود نیستید، آیا ادامه می دهید؟',
+                caption: 'انصراف از جستجوی شغل',
+
+                onConfirm: function () {
+                    $.post("/JobSeeker/Home/CancelSeeking", {}, function (data) {
+                        if (data.IsValid == true || data.IsValid == 'true') {
+                            showMessage(data.Message);
+                        }
+
+                    });
+                },
+            });
+
+        });
+
+    </script>
+
+    <script src="~/Scripts/jquery.printPage.js"></script>
+    <script src="~/Scripts/main/jquery.paging.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+</body>
+</html>

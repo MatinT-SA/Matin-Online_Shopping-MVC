@@ -1,0 +1,79 @@
+﻿@using Sourceiran_MVC.Models.Domains
+
+@model IEnumerable<Tbl_Products>
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<section class="nopadding-bottom padding-top-10 noborder-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="heading-title heading-border-bottom heading-color">
+                    <h1 class="size-17 margin-bottom-10">
+                        محصولات
+                    </h1>
+                </div>
+                <ul class="shop-item-list row list-inline nomargin">
+
+
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <li class="col-lg-3 col-sm-3">
+                                <div class="shop-item">
+                                    <div class="thumbnail">
+                                        <a href="/Home/Product?id=@item.ID" class="shop-item-image">
+                                            <img src="/Content/images/PicProduct/@item.ImageIndex" alt="@item.Title" class="img-responsive" />
+                                        </a>
+
+                                        @if (item.AuctionDate != null)
+                                        {
+                                            <div class="ribbon">
+                                                <div class="ribbon-inner">
+                                                    <span>
+                                                        @*@(item.AuctionDate==null ? "فروش عادی" : "فروش مزایده ای")*@
+                                                        <span>مزایده ای</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="shop-option-over">
+                                            <a href="#" class="btn btn-default" onclick="" data-item-id="" data-toggle="tooltip" title="" data-original-title="مقایسه کن" aria-describedby="tooltip527807">
+                                                <i class="fa fa-bar-chart-o nomargin" data-toggle="tooltip"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="shop-item-footer">
+                                            <div class="shop-item-title">
+                                                <span>
+                                                    <a href="/Home/Product?id=@item.ID" class="black">
+                                                        @item.Title
+                                                    </a>
+                                                </span>
+                                            </div>
+
+                                            <div class="shop-item-price">
+                                                <span class="line-through red">@item.Description</span><br />
+                                                <span class="price green">@item.Price تومان</span>
+                                                <a href="/Home/Product?id=@item.ID" class="fa fa-shopping-cart pull-right green" data-toggle="tooltip" data-original-title="خرید"></a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+
+
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>

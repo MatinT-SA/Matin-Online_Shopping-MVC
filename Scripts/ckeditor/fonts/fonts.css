@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'B Titr';
+    src: url('../fonts/B Titr Bold.ttf') format('truetype'); 
+}
+
+
+@font-face {
+    font-family: 'B Mitra';
+    src: url('../fonts/B Mitra_0.ttf') format('truetype'); 
+}
+@font-face {
+    font-family: 'B Morvarid';
+    src: url('../fonts/B Morvarid_0.ttf') format('truetype'); 
+}
+
+@font-face {
+    font-family: 'B Narm';
+    src: url('../fonts/B Narm_0.ttf') format('truetype'); 
+}
+@font-face {
+    font-family: 'B Nazanin';
+    src: url('../fonts/B Nazanin Bold_0.ttf') format('truetype'); 
+}
+@font-face {
+    font-family: 'B Sepideh';
+    src: url('../fonts/B Sepideh_0.ttf') format('truetype'); 
+}
+
+@font-face {
+    font-family: 'B Sepideh';
+    src: url('../fonts/') format('truetype'); 
+}
+
+@font-face {
+    font-family: 'iran';
+    src: url('../fonts/IRANSans-web.ttf') format('truetype'); 
+}

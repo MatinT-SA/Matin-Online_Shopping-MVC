@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "بازیابی رمز عبور";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="container" style="border:2px solid rgba(120, 120, 120,0.2);padding:30px;width:30%;margin:30px auto;">
+    <img src="~/Content/images/warranty.png" alt="لوگو سایت" class="img-responsive" style="margin:0 auto 20px;display:block;width:100px;height:100px;" />
+    <h2 style="color:#ff4d4d;text-align:center;">بازیابی رمز عبور</h2>
+    <hr />
+    <p style="color:#391326;font-size:15px;">
+        لطفا ایمیل خود را وارد کنید
+    </p>
+    <form method="post" action="/User/RecoveryPass" class="form-group">
+        <input type="email" name="Email" id="Email" placeholder="مثلا: matin@gmail.com" style="float:right;margin-bottom:30px;"
+               class="form-control" required="" oninvalid="this.setCustomValidity('لطفا ایمیل را وارد نمایید')" oninput="setCustomValidity('')" />
+        <button class="btn btn-lg form-control" style="margin:0 auto;display:block;background-color:#ff3333;color:#fff;width:70%;">
+            ادامه
+        </button>
+    </form>
+
+</div>
